@@ -15,8 +15,14 @@ public class PlayerController : MonoBehaviour
 	//private Vector2 hotspot = Vector2.zero;
 	[SerializeField]
 	private GameObject cursorObj;
+	private SpriteRenderer cursorSr;
 	[SerializeField]
 	private float cursorDistance;
+	[SerializeField]
+	private GameObject bullet;
+	[SerializeField]
+	private float fireDelay;
+	private float currDelay = 0.0f;
 
 	public bool controllerConnected;
 
@@ -27,6 +33,10 @@ public class PlayerController : MonoBehaviour
 
 		facingRight = true;
 		//Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
+		if (cursorObj != null)
+		{
+			cursorSr = cursorObj.gameObject.GetComponent<SpriteRenderer>();
+		}
 	}
 	
 	// Update is called once per frame
@@ -49,10 +59,21 @@ public class PlayerController : MonoBehaviour
 		{
 			if (controllerConnected)
 			{
-				if (facingRight)
-					cursorObj.transform.localPosition = new Vector3(Input.GetAxis("Horizontal2") * cursorDistance, Input.GetAxis("Vertical2") * cursorDistance, 0);
+				float hor2 = Input.GetAxis("Horizontal2");
+				float ver2 = Input.GetAxis("Vertical2");
+
+				if (hor2 == 0.0f && ver2 == 0.0f)
+				{
+					cursorSr.enabled = false;
+				} 
 				else
-					cursorObj.transform.localPosition = new Vector3(Input.GetAxis("Horizontal2") * cursorDistance * -1, Input.GetAxis("Vertical2") * cursorDistance, 0);
+				{
+					cursorSr.enabled = true;
+				}
+
+				cursorObj.transform.localPosition = new Vector3(
+					hor2 * cursorDistance + transform.localPosition.x, 
+					ver2 * cursorDistance + transform.localPosition.y, 0);
 			}
 			else
 			{
@@ -62,6 +83,16 @@ public class PlayerController : MonoBehaviour
 		}
 
 		ChangeDirection(hor);
+
+		//fire a projectile
+		if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButtonDown(0))
+		{
+			Fire();
+		}
+		if (currDelay > 0)
+		{
+			currDelay -= Time.deltaTime;
+		}
 	}
 
 	public void ChangeDirection(float hor)
@@ -72,6 +103,26 @@ public class PlayerController : MonoBehaviour
 			Vector3 scale = transform.localScale;
 			scale.x *= -1;
 			transform.localScale = scale;
+		}
+	}
+
+	public void Fire()
+	{
+		if (currDelay <= 0)
+		{
+			GameObject _bullet = Instantiate(bullet, transform.localPosition, transform.rotation);
+			//_bullet.transform.LookAt(cursorObj.transform);
+			Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
+			cursorPos.z = 5.23f;
+			Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);
+			cursorPos.x = cursorPos.x - objectPos.x;
+			cursorPos.y = cursorPos.y - objectPos.y;
+			float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg;
+			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
+
+			Debug.Log("mousePosition: " + Input.mousePosition);
+			Debug.Log("cursorPos: " + Camera.main.WorldToScreenPoint(cursorObj.transform.position));
+			currDelay = fireDelay;
 		}
 	}
 }

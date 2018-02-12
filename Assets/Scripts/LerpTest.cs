@@ -6,7 +6,8 @@ public class LerpTest : MonoBehaviour
 {
 	[SerializeField]
 	private Color[] colors;
-	private SpriteRenderer sr;
+	[SerializeField]
+	private SpriteRenderer[] renderers;
 	[SerializeField]
 	private float duration;
 	private float t = 0.0f;
@@ -14,13 +15,16 @@ public class LerpTest : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
-		sr = GetComponent<SpriteRenderer>();
+		//sr = GetComponent<SpriteRenderer>();
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		sr.material.color = Color.Lerp(colors[0], colors[1], t);
+		for (int i = 0; i < renderers.Length; i++)
+		{
+			renderers[i].material.color = Color.Lerp(colors[0], colors[1], t);
+		}
 		if (t < 1.0f)
 		{
 			t += Time.deltaTime / duration;
