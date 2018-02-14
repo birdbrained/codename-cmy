@@ -32,9 +32,14 @@ public class PlayerController : MonoBehaviour
 	private bool primaryColorEquipped = true;
 	private short currentColorEquipped = 0;
 
+	//weapon details
+	[SerializeField]
+	public Weapon[] totalWeapons;
+	private Weapon[] currentWeapons = new Weapon[2];
+
 	//switching colors
 	[SerializeField]
-	private SpriteRenderer[] renderers;
+	private SpriteRenderer[] renderersToColor;
 	[SerializeField]
 	private float switchDuration;
 	private float t = 0.0f;
@@ -55,6 +60,13 @@ public class PlayerController : MonoBehaviour
 		}
 		currentColors[0] = totalColors[0];
 		currentColors[1] = totalColors[1];
+		currentWeapons[0] = totalWeapons[0];
+		currentWeapons[1] = totalWeapons[1];
+
+		foreach (SpriteRenderer r in renderersToColor)
+		{
+			r.material.color = currentColors[0];
+		}
 	}
 	
 	// Update is called once per frame
@@ -107,7 +119,9 @@ public class PlayerController : MonoBehaviour
 		{
 			if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButtonDown(0))
 			{
-				Fire();
+				//Fire();
+				currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
+				currentWeapons[currentColorEquipped].Fire();
 			}
 			if (Input.GetKeyDown(KeyCode.F))
 			{
@@ -117,15 +131,15 @@ public class PlayerController : MonoBehaviour
 		//or else if you are currently switching colors, switch colors
 		else
 		{
-			for (int i = 0; i < renderers.Length; i++)
+			for (int i = 0; i < renderersToColor.Length; i++)
 			{
 				if (currentColorEquipped == 0)
 				{
-					renderers[i].material.color = Color.Lerp(currentColors[0], currentColors[1], t);
+					renderersToColor[i].material.color = Color.Lerp(currentColors[0], currentColors[1], t);
 				}
 				else
 				{
-					renderers[i].material.color = Color.Lerp(currentColors[1], currentColors[0], t);
+					renderersToColor[i].material.color = Color.Lerp(currentColors[1], currentColors[0], t);
 				}
 			}
 			if (t < 1.0f)
@@ -160,7 +174,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	public void Fire()
+	/*public void Fire()
 	{
 		if (currDelay <= 0)
 		{
@@ -179,5 +193,5 @@ public class PlayerController : MonoBehaviour
 			//Debug.Log("cursorPos: " + Camera.main.WorldToScreenPoint(cursorObj.transform.position));
 			currDelay = fireDelay;
 		}
-	}
+	}*/
 }
