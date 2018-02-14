@@ -24,6 +24,22 @@ public class PlayerController : MonoBehaviour
 	private float fireDelay;
 	private float currDelay = 0.0f;
 
+	//data about color
+	[SerializeField]
+	private Color[] totalColors;
+	//private int currentColorIndex;
+	private Color[] currentColors = new Color[2];
+	private bool primaryColorEquipped = true;
+	private short currentColorEquipped = 0;
+
+	//switching colors
+	[SerializeField]
+	private SpriteRenderer[] renderers;
+	[SerializeField]
+	private float switchDuration;
+	private float t = 0.0f;
+	private bool isSwitchingColors = false;
+
 	public bool controllerConnected;
 
 	// Use this for initialization
@@ -37,12 +53,14 @@ public class PlayerController : MonoBehaviour
 		{
 			cursorSr = cursorObj.gameObject.GetComponent<SpriteRenderer>();
 		}
+		currentColors[0] = totalColors[0];
+		currentColors[1] = totalColors[1];
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-		
+
 	}
 
 	void FixedUpdate()
@@ -85,10 +103,46 @@ public class PlayerController : MonoBehaviour
 		ChangeDirection(hor);
 
 		//fire a projectile
-		if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButtonDown(0))
+		if (!isSwitchingColors)
 		{
-			Fire();
+			if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButtonDown(0))
+			{
+				Fire();
+			}
+			if (Input.GetKeyDown(KeyCode.F))
+			{
+				isSwitchingColors = true;
+			}
 		}
+		//or else if you are currently switching colors, switch colors
+		else
+		{
+			for (int i = 0; i < renderers.Length; i++)
+			{
+				if (currentColorEquipped == 0)
+				{
+					renderers[i].material.color = Color.Lerp(currentColors[0], currentColors[1], t);
+				}
+				else
+				{
+					renderers[i].material.color = Color.Lerp(currentColors[1], currentColors[0], t);
+				}
+			}
+			if (t < 1.0f)
+			{
+				t += Time.deltaTime / switchDuration;
+			}
+			else
+			{
+				isSwitchingColors = false;
+				t = 0.0f;
+				if (currentColorEquipped == 0)
+					currentColorEquipped = 1;
+				else
+					currentColorEquipped = 0;
+			}
+		}
+
 		if (currDelay > 0)
 		{
 			currDelay -= Time.deltaTime;
@@ -119,9 +173,10 @@ public class PlayerController : MonoBehaviour
 			cursorPos.y = cursorPos.y - objectPos.y;
 			float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg;
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
+			_bullet.GetComponent<Bullet>().FireSprite.material.color = currentColors[currentColorEquipped];
 
-			Debug.Log("mousePosition: " + Input.mousePosition);
-			Debug.Log("cursorPos: " + Camera.main.WorldToScreenPoint(cursorObj.transform.position));
+			//Debug.Log("mousePosition: " + Input.mousePosition);
+			//Debug.Log("cursorPos: " + Camera.main.WorldToScreenPoint(cursorObj.transform.position));
 			currDelay = fireDelay;
 		}
 	}

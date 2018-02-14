@@ -6,6 +6,15 @@ public class Bullet : MonoBehaviour
 {
 	[SerializeField]
 	private float speed;
+	[SerializeField]
+	private SpriteRenderer fireSprite;
+	public SpriteRenderer FireSprite
+	{
+		get
+		{
+			return fireSprite;
+		}
+	}
 
 	// Use this for initialization
 	void Start () 
