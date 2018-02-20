@@ -23,6 +23,32 @@ public abstract class Weapon : MonoBehaviour
 	protected float fireDelay;
 	protected float currDelay;
 
+	[SerializeField]
+	protected float chargeTime;
+	public float ChargeTime
+	{
+		get
+		{
+			return chargeTime;
+		}
+		set
+		{
+			chargeTime = value;
+		}
+	}
+	protected float currChargeTime;
+	public float CurrChargeTime
+	{
+		get
+		{
+			return currChargeTime;
+		}
+		set
+		{
+			currChargeTime = value;
+		}
+	}
+
 	protected Color bulletColor;
 	public Color BulletColor
 	{

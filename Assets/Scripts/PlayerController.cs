@@ -7,6 +7,9 @@ public class PlayerController : MonoBehaviour
 	private Rigidbody2D rb;
 	[SerializeField]
 	private float speed;
+	[SerializeField]
+	private int maxHealth = 100;
+	private int currHealth;
 	private bool facingRight;
 	//[SerializeField]
 	//private Texture2D cursorTexture;
@@ -52,6 +55,7 @@ public class PlayerController : MonoBehaviour
 	{
 		rb = GetComponent<Rigidbody2D>();
 
+		currHealth = maxHealth;
 		facingRight = true;
 		//Cursor.SetCursor(cursorTexture, hotspot, cursorMode);
 		if (cursorObj != null)
@@ -117,7 +121,8 @@ public class PlayerController : MonoBehaviour
 		//fire a projectile
 		if (!isSwitchingColors)
 		{
-			if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButtonDown(0))
+			//firing, please change controller input future matt, fire should not be change color
+			if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButton(0))
 			{
 				//Fire();
 				currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
@@ -155,6 +160,11 @@ public class PlayerController : MonoBehaviour
 				else
 					currentColorEquipped = 0;
 			}
+		}
+
+		if (Input.GetMouseButtonUp(0))
+		{
+			//Debug.Log("mouse button up");
 		}
 
 		if (currDelay > 0)

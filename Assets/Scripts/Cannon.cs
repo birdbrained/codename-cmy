@@ -38,6 +38,18 @@ public class Cannon : Weapon
 
 	public override void ChargeFire()
 	{
-		
+		GameObject _bullet = Instantiate(bulletObj, transform.position, transform.rotation);
+		_bullet.transform.localScale *= 3.0f;
+		Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
+		cursorPos.z = 5.23f;
+		Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);
+		cursorPos.x = cursorPos.x - objectPos.x;
+		cursorPos.y = cursorPos.y - objectPos.y;
+		float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg;
+		_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
+		_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
+
+		//currDelay = fireDelay;
+		currChargeTime = 0.0f;
 	}
 }
