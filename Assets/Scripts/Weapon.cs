@@ -62,6 +62,20 @@ public abstract class Weapon : MonoBehaviour
 		}
 	}
 
+	[SerializeField]
+	protected float speed;
+	public float Speed
+	{
+		get
+		{
+			return speed;
+		}
+		set
+		{
+			speed = value;
+		}
+	}
+
 	public abstract void Fire();
 	public abstract void ChargeFire();
 }

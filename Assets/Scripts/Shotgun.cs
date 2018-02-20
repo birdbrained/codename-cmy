@@ -25,6 +25,7 @@ public class Shotgun : Weapon
 			{
 				GameObject _bullet = Instantiate(bulletObj, transform.position, transform.rotation);
 				_bullet.transform.localScale *= Random.Range(0.5f, 2f);
+				_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(Random.Range(0.8f, 1.3f));
 				Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
 				cursorPos.z = 5.23f;
 				Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);

@@ -39,6 +39,7 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	public Weapon[] totalWeapons;
 	private Weapon[] currentWeapons = new Weapon[2];
+	private Weapon currentWeapon;
 
 	//switching colors
 	[SerializeField]
@@ -66,6 +67,7 @@ public class PlayerController : MonoBehaviour
 		currentColors[1] = totalColors[1];
 		currentWeapons[0] = totalWeapons[0];
 		currentWeapons[1] = totalWeapons[1];
+		currentWeapon = currentWeapons[0];
 
 		foreach (SpriteRenderer r in renderersToColor)
 		{
@@ -125,8 +127,13 @@ public class PlayerController : MonoBehaviour
 			if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButton(0))
 			{
 				//Fire();
-				currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
-				currentWeapons[currentColorEquipped].Fire();
+				currentWeapon = currentWeapons[currentColorEquipped];
+				//currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
+				//currentWeapons[currentColorEquipped].Fire();
+				//currentWeapons[currentColorEquipped].CurrChargeTime += Time.deltaTime;
+				currentWeapon.BulletColor = currentColors[currentColorEquipped];
+				currentWeapon.Fire();
+				currentWeapon.CurrChargeTime += Time.deltaTime;
 			}
 			if (Input.GetKeyDown(KeyCode.F))
 			{
@@ -165,6 +172,14 @@ public class PlayerController : MonoBehaviour
 		if (Input.GetMouseButtonUp(0))
 		{
 			//Debug.Log("mouse button up");
+			//unleash the charge move!
+			//if (currentWeapons[currentColorEquipped].CurrChargeTime >= currentWeapons[currentColorEquipped].ChargeTime)
+			if (currentWeapon.CurrChargeTime >= currentWeapon.ChargeTime)
+			{
+				//currentWeapons[currentColorEquipped].ChargeFire();
+				currentWeapon.ChargeFire();
+			}
+			currentWeapon.CurrChargeTime = 0.0f;
 		}
 
 		if (currDelay > 0)

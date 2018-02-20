@@ -27,4 +27,14 @@ public class Bullet : MonoBehaviour
 	{
 		transform.Translate(Vector3.down * speed);
 	}
+
+	public void ChangeBulletSpeed(float f)
+	{
+		speed = f;
+	}
+
+	public void ChangeBulletSpeedByPercent(float percent)
+	{
+		speed *= percent;
+	}
 }
