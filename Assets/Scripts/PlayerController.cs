@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour 
 {
@@ -45,9 +46,15 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private SpriteRenderer[] renderersToColor;
 	[SerializeField]
+	private Image[] imagesToColor;
+	[SerializeField]
 	private float switchDuration;
 	private float t = 0.0f;
 	private bool isSwitchingColors = false;
+
+
+	[SerializeField]
+	private Image delayRing;
 
 	public bool controllerConnected;
 
@@ -73,12 +80,19 @@ public class PlayerController : MonoBehaviour
 		{
 			r.material.color = currentColors[0];
 		}
+		foreach (Image im in imagesToColor)
+		{
+			im.color = new Color(255, 255, 255, 255);
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () 
 	{
-
+		if (delayRing != null)
+		{
+			delayRing.fillAmount = ((float)currentWeapon.CurrChargeTime / (float)currentWeapon.ChargeTime);
+		}
 	}
 
 	void FixedUpdate()
@@ -154,6 +168,19 @@ public class PlayerController : MonoBehaviour
 					renderersToColor[i].material.color = Color.Lerp(currentColors[1], currentColors[0], t);
 				}
 			}
+			for (int i = 0; i < imagesToColor.Length; i++)
+			{
+				if (currentColorEquipped == 0)
+				{
+					imagesToColor[i].color = Color.Lerp(currentColors[0], currentColors[1], t);
+				}
+				else
+				{
+					imagesToColor[i].color = Color.Lerp(currentColors[1], currentColors[0], t);
+				}
+			}
+
+
 			if (t < 1.0f)
 			{
 				t += Time.deltaTime / switchDuration;

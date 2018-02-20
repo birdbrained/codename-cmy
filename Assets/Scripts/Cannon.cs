@@ -40,6 +40,7 @@ public class Cannon : Weapon
 	{
 		GameObject _bullet = Instantiate(bulletObj, transform.position, transform.rotation);
 		_bullet.transform.localScale *= 3.0f;
+		_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(1.5f);
 		Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
 		cursorPos.z = 5.23f;
 		Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);
