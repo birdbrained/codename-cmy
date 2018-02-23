@@ -76,6 +76,21 @@ public abstract class Weapon : MonoBehaviour
 		}
 	}
 
+	[SerializeField]
+	protected GameObject bulletSpawnPosition;
+	protected bool controllerConnected;
+	public bool ControllerConnected
+	{
+		get
+		{
+			return controllerConnected;
+		}
+		set
+		{
+			controllerConnected = value;
+		}
+	}
+
 	public abstract void Fire();
 	public abstract void ChargeFire();
 }

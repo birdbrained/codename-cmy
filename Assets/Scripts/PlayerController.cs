@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class PlayerController : MonoBehaviour 
 {
 	private Rigidbody2D rb;
+	private Animator ani;
 	[SerializeField]
 	private float speed;
 	[SerializeField]
@@ -20,6 +21,9 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private GameObject cursorObj;
 	private SpriteRenderer cursorSr;
+	[SerializeField]
+	private GameObject armObj;
+	private PointAtObject armPointer;
 	[SerializeField]
 	private float cursorDistance;
 	[SerializeField]
@@ -62,6 +66,12 @@ public class PlayerController : MonoBehaviour
 	void Start () 
 	{
 		rb = GetComponent<Rigidbody2D>();
+		ani = GetComponent<Animator>();
+
+		if (armObj != null)
+		{
+			armPointer = armObj.GetComponent<PointAtObject>();
+		}
 
 		currHealth = maxHealth;
 		facingRight = true;
@@ -82,7 +92,12 @@ public class PlayerController : MonoBehaviour
 		}
 		foreach (Image im in imagesToColor)
 		{
-			im.color = new Color(255, 255, 255, 255);
+			//im.color = new Color(255, 255, 255, 255);
+			im.color = currentColors[0];
+		}
+		foreach (Weapon w in currentWeapons)
+		{
+			w.ControllerConnected = controllerConnected;
 		}
 	}
 	
@@ -99,6 +114,11 @@ public class PlayerController : MonoBehaviour
 	{
 		float hor = Input.GetAxis("Horizontal");
 		float ver = Input.GetAxis("Vertical");
+
+		if (ani != null)
+		{
+			HandleAnimations(hor, ver);
+		}
 
 		rb.velocity = new Vector2(
 			Mathf.Lerp(0, hor * speed, 0.8f),
@@ -133,12 +153,16 @@ public class PlayerController : MonoBehaviour
 		}
 
 		ChangeDirection(hor);
+		if (armPointer != null)
+		{
+			armPointer.FacingRight = facingRight;
+		}
 
 		//fire a projectile
 		if (!isSwitchingColors)
 		{
 			//firing, please change controller input future matt, fire should not be change color
-			if (Input.GetAxis("SwitchColor") == 1 || Input.GetMouseButton(0))
+			if ((!controllerConnected && Input.GetMouseButton(0)) || (controllerConnected && Input.GetAxis("XboxOneTrigger") < 0))
 			{
 				//Fire();
 				currentWeapon = currentWeapons[currentColorEquipped];
@@ -149,7 +173,7 @@ public class PlayerController : MonoBehaviour
 				currentWeapon.Fire();
 				currentWeapon.CurrChargeTime += Time.deltaTime;
 			}
-			if (Input.GetKeyDown(KeyCode.F))
+			if ((!controllerConnected && Input.GetKeyDown(KeyCode.F)) || (controllerConnected && Input.GetAxis("SwitchColor") == 1))
 			{
 				isSwitchingColors = true;
 			}
@@ -196,7 +220,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if (Input.GetMouseButtonUp(0))
+		if ((!controllerConnected && Input.GetMouseButtonUp(0)) || (controllerConnected && Input.GetAxis("XboxOneTrigger") >= 0))
 		{
 			//Debug.Log("mouse button up");
 			//unleash the charge move!
@@ -212,6 +236,20 @@ public class PlayerController : MonoBehaviour
 		if (currDelay > 0)
 		{
 			currDelay -= Time.deltaTime;
+		}
+	}
+
+	void HandleAnimations(float hor, float ver)
+	{
+		ani.SetFloat("walkSpeed", Mathf.Abs(hor) + Mathf.Abs(ver));
+
+		if (ver > 0)
+		{
+			ani.SetLayerWeight(1, 1);
+		}
+		else
+		{
+			ani.SetLayerWeight(1, 0);
 		}
 	}
 

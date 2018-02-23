@@ -22,7 +22,15 @@ public class Cannon : Weapon
 	{
 		if (currDelay <= 0)
 		{
-			GameObject _bullet = Instantiate(bulletObj, transform.position, transform.rotation);
+			GameObject _bullet;
+			if (controllerConnected)
+			{
+				_bullet = Instantiate(bulletObj, transform.position, transform.rotation);
+			}
+			else
+			{
+				_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
+			}
 			Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
 			cursorPos.z = 5.23f;
 			Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);
@@ -38,7 +46,15 @@ public class Cannon : Weapon
 
 	public override void ChargeFire()
 	{
-		GameObject _bullet = Instantiate(bulletObj, transform.position, transform.rotation);
+		GameObject _bullet;
+		if (controllerConnected)
+		{
+			_bullet = Instantiate(bulletObj, transform.position, transform.rotation);
+		}
+		else
+		{
+			_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
+		}
 		_bullet.transform.localScale *= 3.0f;
 		_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(1.5f);
 		Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);

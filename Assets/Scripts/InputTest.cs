@@ -12,9 +12,9 @@ public class InputTest : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetAxis("SwitchColor") != 0)
+		if (Input.GetAxis("XboxOneTrigger") != 0)
 		{
-			Debug.Log("RB pressed, " + Input.GetAxis("SwitchColor").ToString());
+			Debug.Log("Trigger, " + Input.GetAxis("XboxOneTrigger").ToString());
 		}
 	}
 }
