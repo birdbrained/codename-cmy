@@ -32,6 +32,13 @@ public class PlayerController : MonoBehaviour
 	private float fireDelay;
 	private float currDelay = 0.0f;
 
+	//shield object
+	[SerializeField]
+	private GameObject shieldObj;
+	[SerializeField]
+	private float shieldDistance;
+	private bool isDefending;
+
 	//data about color
 	[SerializeField]
 	private Color[] totalColors;
@@ -80,6 +87,13 @@ public class PlayerController : MonoBehaviour
 		{
 			cursorSr = cursorObj.gameObject.GetComponent<SpriteRenderer>();
 		}
+		if (shieldObj != null)
+		{
+			shieldObj.SetActive(false);
+		}
+		isDefending = false;
+
+		//color setting
 		currentColors[0] = totalColors[0];
 		currentColors[1] = totalColors[1];
 		currentWeapons[0] = totalWeapons[0];
@@ -114,6 +128,8 @@ public class PlayerController : MonoBehaviour
 	{
 		float hor = Input.GetAxis("Horizontal");
 		float ver = Input.GetAxis("Vertical");
+		float hor2 = Input.GetAxis("Horizontal2");
+		float ver2 = Input.GetAxis("Vertical2");
 
 		if (ani != null)
 		{
@@ -129,9 +145,6 @@ public class PlayerController : MonoBehaviour
 		{
 			if (controllerConnected)
 			{
-				float hor2 = Input.GetAxis("Horizontal2");
-				float ver2 = Input.GetAxis("Vertical2");
-
 				if (hor2 == 0.0f && ver2 == 0.0f)
 				{
 					cursorSr.enabled = false;
@@ -152,6 +165,43 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
+		if (shieldObj != null)
+		{
+			//right click or left trigger to defend
+			if (Input.GetMouseButton(1))
+			{
+				shieldObj.SetActive(true);
+				isDefending = true;
+
+				//use the inputs from the right stick if you are using a controller
+				if (controllerConnected)
+				{
+					shieldObj.transform.localPosition = new Vector3(
+						hor2 * shieldDistance + transform.localPosition.x,
+						ver2 * shieldDistance + transform.localPosition.y, 0);
+				} 
+				//otherwise need to figure the angle from how the cursor relates to the player
+				else
+				{
+					float curX = cursorObj.transform.localPosition.x - transform.localPosition.x;
+					float curY = cursorObj.transform.localPosition.y - transform.localPosition.y;
+					float c = Mathf.Sqrt(curX * curX + curY * curY);
+					//float c = curX * curX + curY * curY;
+					float shieldX = curX / c;
+					float shieldY = curY / c;
+
+					shieldObj.transform.localPosition = new Vector3(
+						shieldX * shieldDistance + transform.localPosition.x,
+						shieldY * shieldDistance + transform.localPosition.y, 0);
+				}
+			}
+			else
+			{
+				shieldObj.SetActive(false);
+				isDefending = false;
+			}
+		}
+
 		ChangeDirection(hor);
 		if (armPointer != null)
 		{
@@ -165,13 +215,16 @@ public class PlayerController : MonoBehaviour
 			if ((!controllerConnected && Input.GetMouseButton(0)) || (controllerConnected && Input.GetAxis("XboxOneTrigger") < 0))
 			{
 				//Fire();
-				currentWeapon = currentWeapons[currentColorEquipped];
-				//currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
-				//currentWeapons[currentColorEquipped].Fire();
-				//currentWeapons[currentColorEquipped].CurrChargeTime += Time.deltaTime;
-				currentWeapon.BulletColor = currentColors[currentColorEquipped];
-				currentWeapon.Fire();
-				currentWeapon.CurrChargeTime += Time.deltaTime;
+				if (!isDefending)
+				{
+					currentWeapon = currentWeapons[currentColorEquipped];
+					//currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
+					//currentWeapons[currentColorEquipped].Fire();
+					//currentWeapons[currentColorEquipped].CurrChargeTime += Time.deltaTime;
+					currentWeapon.BulletColor = currentColors[currentColorEquipped];
+					currentWeapon.Fire();
+					currentWeapon.CurrChargeTime += Time.deltaTime;
+				}
 			}
 			if ((!controllerConnected && Input.GetKeyDown(KeyCode.F)) || (controllerConnected && Input.GetAxis("SwitchColor") == 1))
 			{
