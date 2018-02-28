@@ -18,7 +18,7 @@ public class Cannon : Weapon
 		}
 	}
 
-	public override void Fire()
+	public override void Fire(string tag)
 	{
 		if (currDelay <= 0)
 		{
@@ -31,6 +31,7 @@ public class Cannon : Weapon
 			{
 				_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
 			}
+			_bullet.tag = tag;
 			Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
 			cursorPos.z = 5.23f;
 			Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);
@@ -55,6 +56,7 @@ public class Cannon : Weapon
 		{
 			_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
 		}
+		_bullet.tag = tag;
 		_bullet.transform.localScale *= 3.0f;
 		_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(1.5f);
 		Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);

@@ -91,6 +91,6 @@ public abstract class Weapon : MonoBehaviour
 		}
 	}
 
-	public abstract void Fire();
+	public abstract void Fire(string tag);
 	public abstract void ChargeFire();
 }

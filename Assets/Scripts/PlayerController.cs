@@ -217,13 +217,7 @@ public class PlayerController : MonoBehaviour
 				//Fire();
 				if (!isDefending)
 				{
-					currentWeapon = currentWeapons[currentColorEquipped];
-					//currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
-					//currentWeapons[currentColorEquipped].Fire();
-					//currentWeapons[currentColorEquipped].CurrChargeTime += Time.deltaTime;
-					currentWeapon.BulletColor = currentColors[currentColorEquipped];
-					currentWeapon.Fire();
-					currentWeapon.CurrChargeTime += Time.deltaTime;
+					FireWeapon();
 				}
 			}
 			if ((!controllerConnected && Input.GetKeyDown(KeyCode.F)) || (controllerConnected && Input.GetAxis("SwitchColor") == 1))
@@ -290,6 +284,17 @@ public class PlayerController : MonoBehaviour
 		{
 			currDelay -= Time.deltaTime;
 		}
+	}
+
+	void FireWeapon()
+	{
+		currentWeapon = currentWeapons[currentColorEquipped];
+		//currentWeapons[currentColorEquipped].BulletColor = currentColors[currentColorEquipped];
+		//currentWeapons[currentColorEquipped].Fire();
+		//currentWeapons[currentColorEquipped].CurrChargeTime += Time.deltaTime;
+		currentWeapon.BulletColor = currentColors[currentColorEquipped];
+		currentWeapon.Fire("player_bullet");
+		currentWeapon.CurrChargeTime += Time.deltaTime;
 	}
 
 	void HandleAnimations(float hor, float ver)

@@ -17,7 +17,7 @@ public class Shotgun : Weapon
 			currDelay -= Time.deltaTime;
 	}
 
-	public override void Fire()
+	public override void Fire(string tag)
 	{
 		if (currDelay <= 0)
 		{
@@ -32,6 +32,7 @@ public class Shotgun : Weapon
 				{
 					_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
 				}
+				_bullet.tag = tag;
 				_bullet.transform.localScale *= Random.Range(0.5f, 2f);
 				_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(Random.Range(0.8f, 1.3f));
 				Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
@@ -60,6 +61,7 @@ public class Shotgun : Weapon
 			{
 				_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
 			}
+			_bullet.tag = tag;
 			_bullet.transform.localScale *= 3.0f;
 			//_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(Random.Range(0.8f, 1.3f));
 			Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);

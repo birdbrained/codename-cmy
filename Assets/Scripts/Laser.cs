@@ -15,7 +15,7 @@ public class Laser : Weapon
 		
 	}
 
-	public override void Fire()
+	public override void Fire(string tag)
 	{
 
 	}
