@@ -82,6 +82,7 @@ public class Shotgun : Weapon
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 22.5f * i));
 			_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
 		}
+		currChargeTime = 0.0f;
 		if (chargeAudio != null)
 			chargeAudio.Play();
 	}

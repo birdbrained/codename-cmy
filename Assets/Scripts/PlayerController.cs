@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
 		//color setting
 		currentColors[0] = totalColors[0];
 		currentColors[1] = totalColors[1];
-		currentWeapons[0] = totalWeapons[0];
+		currentWeapons[0] = totalWeapons[2];
 		currentWeapons[1] = totalWeapons[1];
 		currentWeapon = currentWeapons[0];
 
@@ -138,9 +138,11 @@ public class PlayerController : MonoBehaviour
 			//im.color = new Color(255, 255, 255, 255);
 			im.color = currentColors[0];
 		}
-		foreach (Weapon w in currentWeapons)
+		//foreach (Weapon w in currentWeapons)
+		for (int i = 0; i < totalWeapons.Length; i++)
 		{
-			w.ControllerConnected = controllerConnected;
+			//w.ControllerConnected = controllerConnected;
+			totalWeapons[i].BulletColor = totalColors[i];
 		}
 	}
 	
@@ -315,7 +317,7 @@ public class PlayerController : MonoBehaviour
 				//currentWeapons[currentColorEquipped].ChargeFire();
 				currentWeapon.ChargeFire();
 			}
-			currentWeapon.CurrChargeTime = 0.0f;
+			//currentWeapon.CurrChargeTime = 0.0f;
 		}
 
 		if (currDelay > 0)
