@@ -209,6 +209,7 @@ public class PlayerController : MonoBehaviour
 			{
 				shieldObj.SetActive(true);
 				isDefending = true;
+				currentWeapon.CurrChargeTime = 0.0f;
 
 				//use the inputs from the right stick if you are using a controller
 				if (controllerConnected)
@@ -309,7 +310,7 @@ public class PlayerController : MonoBehaviour
 			//Debug.Log("mouse button up");
 			//unleash the charge move!
 			//if (currentWeapons[currentColorEquipped].CurrChargeTime >= currentWeapons[currentColorEquipped].ChargeTime)
-			if (currentWeapon.CurrChargeTime >= currentWeapon.ChargeTime)
+			if (currentWeapon.CurrChargeTime >= currentWeapon.ChargeTime && !isDefending)
 			{
 				//currentWeapons[currentColorEquipped].ChargeFire();
 				currentWeapon.ChargeFire();

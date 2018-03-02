@@ -103,6 +103,9 @@ public abstract class Weapon : MonoBehaviour
 		}
 	}
 
+	[SerializeField]
+	protected Transform laserHit;
+
 	public abstract void Fire(string tag);
 	public abstract void ChargeFire();
 	public abstract AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol);
