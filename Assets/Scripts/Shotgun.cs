@@ -4,10 +4,17 @@ using UnityEngine;
 
 public class Shotgun : Weapon 
 {
-
 	// Use this for initialization
-	void Start () {
-		
+	void Start() 
+	{
+		if (fireClip != null)
+		{
+			fireAudio = AddAudio(fireClip, false, false, fireAudioVolume);
+		}
+		if (chargeClip != null)
+		{
+			chargeAudio = AddAudio(chargeClip, false, false, chargeAudioVolume);
+		}
 	}
 	
 	// Update is called once per frame
@@ -44,6 +51,8 @@ public class Shotgun : Weapon
 				_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
 				_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
 			}
+			if (fireAudio != null)
+				fireAudio.Play();
 			currDelay = fireDelay;
 		}
 	}
@@ -73,5 +82,17 @@ public class Shotgun : Weapon
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 22.5f * i));
 			_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
 		}
+		if (chargeAudio != null)
+			chargeAudio.Play();
+	}
+
+	public override AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)
+	{
+		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
+		newAudio.clip = clip;
+		newAudio.loop = loop;
+		newAudio.playOnAwake = playAwake;
+		newAudio.volume = vol;
+		return newAudio;
 	}
 }

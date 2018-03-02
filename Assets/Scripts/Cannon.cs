@@ -5,8 +5,16 @@ using UnityEngine;
 public class Cannon : Weapon 
 {
 	// Use this for initialization
-	void Start () {
-		
+	void Start () 
+	{
+		if (fireClip != null)
+		{
+			fireAudio = AddAudio(fireClip, false, false, fireAudioVolume);
+		}
+		if (chargeClip != null)
+		{
+			chargeAudio = AddAudio(chargeClip, false, false, chargeAudioVolume);
+		}
 	}
 	
 	// Update is called once per frame
@@ -42,6 +50,8 @@ public class Cannon : Weapon
 			_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
 
 			currDelay = fireDelay;
+			if (fireAudio != null)
+				fireAudio.Play();
 		}
 	}
 
@@ -70,5 +80,17 @@ public class Cannon : Weapon
 
 		//currDelay = fireDelay;
 		currChargeTime = 0.0f;
+		if (chargeAudio != null)
+			chargeAudio.Play();
+	}
+
+	public override AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)
+	{
+		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
+		newAudio.clip = clip;
+		newAudio.loop = loop;
+		newAudio.playOnAwake = playAwake;
+		newAudio.volume = vol;
+		return newAudio;
 	}
 }

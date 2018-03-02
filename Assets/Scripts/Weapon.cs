@@ -76,6 +76,18 @@ public abstract class Weapon : MonoBehaviour
 		}
 	}
 
+	//fire sound
+	[SerializeField]
+	protected AudioClip fireClip;
+	protected AudioSource fireAudio;
+	[SerializeField]
+	protected float fireAudioVolume;
+	[SerializeField]
+	protected AudioClip chargeClip;
+	protected AudioSource chargeAudio;
+	[SerializeField]
+	protected float chargeAudioVolume;
+
 	[SerializeField]
 	protected GameObject bulletSpawnPosition;
 	protected bool controllerConnected;
@@ -93,4 +105,5 @@ public abstract class Weapon : MonoBehaviour
 
 	public abstract void Fire(string tag);
 	public abstract void ChargeFire();
+	public abstract AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol);
 }

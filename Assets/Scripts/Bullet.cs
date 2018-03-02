@@ -37,4 +37,6 @@ public class Bullet : MonoBehaviour
 	{
 		speed *= percent;
 	}
+
+	//void OnTrigger
 }

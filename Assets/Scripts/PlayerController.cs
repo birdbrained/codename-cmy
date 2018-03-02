@@ -5,27 +5,42 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour 
 {
+	//components needed
 	private Rigidbody2D rb;
 	private Animator ani;
+
+	//basic player variables
 	[SerializeField]
 	private float speed;
 	[SerializeField]
 	private int maxHealth = 100;
 	private int currHealth;
 	private bool facingRight;
+
+	//health bar data
+	[SerializeField]
+	private GameObject healthBar;
+	private RectTransform healthBarRect;
+
 	//[SerializeField]
 	//private Texture2D cursorTexture;
 	//public CursorMode cursorMode = CursorMode.Auto;
 	//[SerializeField]
 	//private Vector2 hotspot = Vector2.zero;
+
+	//cursor object
 	[SerializeField]
 	private GameObject cursorObj;
 	private SpriteRenderer cursorSr;
 	[SerializeField]
+	private float cursorDistance;
+
+	//arm object
+	[SerializeField]
 	private GameObject armObj;
 	private PointAtObject armPointer;
-	[SerializeField]
-	private float cursorDistance;
+
+	//bullet data
 	[SerializeField]
 	private GameObject bullet;
 	[SerializeField]
@@ -63,11 +78,21 @@ public class PlayerController : MonoBehaviour
 	private float t = 0.0f;
 	private bool isSwitchingColors = false;
 
+	//sound effect manager
+	/*[SerializeField]
+	private AudioClip fireClip;
+	private AudioSource fireAudio;*/
 
 	[SerializeField]
 	private Image delayRing;
 
 	public bool controllerConnected;
+
+	/*void Awake()
+	{
+		if (fireClip != null)
+			fireAudio = AddAudio(fireClip, false, false, 1);
+	}*/
 
 	// Use this for initialization
 	void Start () 
@@ -90,6 +115,10 @@ public class PlayerController : MonoBehaviour
 		if (shieldObj != null)
 		{
 			shieldObj.SetActive(false);
+		}
+		if (healthBar != null)
+		{
+			healthBarRect = healthBar.GetComponent<RectTransform>();
 		}
 		isDefending = false;
 
@@ -122,6 +151,14 @@ public class PlayerController : MonoBehaviour
 		{
 			delayRing.fillAmount = ((float)currentWeapon.CurrChargeTime / (float)currentWeapon.ChargeTime);
 		}
+		if (healthBar != null && healthBarRect != null)
+		{
+			healthBarRect.sizeDelta = new Vector2(100.0f, ((float)currHealth / (float)maxHealth) * 95.0f);
+			//healthBarRect.rect.height = ((float)currHealth / (float)maxHealth) * 100.0f;
+			//Debug.Log("Derp!");
+		}
+
+		//currHealth--;
 	}
 
 	void FixedUpdate()
@@ -294,6 +331,9 @@ public class PlayerController : MonoBehaviour
 		//currentWeapons[currentColorEquipped].CurrChargeTime += Time.deltaTime;
 		currentWeapon.BulletColor = currentColors[currentColorEquipped];
 		currentWeapon.Fire("player_bullet");
+
+		/*if (fireAudio != null)
+			fireAudio.Play();*/
 		currentWeapon.CurrChargeTime += Time.deltaTime;
 	}
 
@@ -321,6 +361,16 @@ public class PlayerController : MonoBehaviour
 			transform.localScale = scale;
 		}
 	}
+
+	/*public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)
+	{
+		AudioSource newAudio = gameObject.AddComponent<AudioSource>();
+		newAudio.clip = clip;
+		newAudio.loop = loop;
+		newAudio.playOnAwake = playAwake;
+		newAudio.volume = vol;
+		return newAudio;
+	}*/
 
 	/*public void Fire()
 	{
