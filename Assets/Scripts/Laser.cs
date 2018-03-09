@@ -47,7 +47,7 @@ public class Laser : Weapon
 					lr.SetPosition(0, bulletSpawnPosition.transform.position);
 				lr.SetPosition(1, cursorObj.transform.position);
 				lr.enabled = true;
-				lr.startColor = bulletColor;
+				lr.material.SetColor("_Color", bulletColor);
 
 				currChargeTime -= 0.01f;
 				if (currChargeTime <= 0.0f)
