@@ -88,6 +88,14 @@ public class PlayerController : MonoBehaviour
 
 	public bool controllerConnected;
 
+	//controls!!!!!
+	public string horizontalAxis = "Horizontal";
+	public string verticalAxis = "Vertical";
+	public string horizontalAxis2 = "Horizontal2";
+	public string verticalAxis2 = "Vertical2";
+	public string fireAxis = "XboxOneTrigger";
+	public string switchColorAxis = "SwitchColor";
+
 	/*void Awake()
 	{
 		if (fireClip != null)
@@ -125,7 +133,7 @@ public class PlayerController : MonoBehaviour
 		//color setting
 		currentColors[0] = totalColors[0];
 		currentColors[1] = totalColors[1];
-		currentWeapons[0] = totalWeapons[2];
+		currentWeapons[0] = totalWeapons[0];
 		currentWeapons[1] = totalWeapons[1];
 		currentWeapon = currentWeapons[0];
 
@@ -165,10 +173,10 @@ public class PlayerController : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		float hor = Input.GetAxis("Horizontal");
-		float ver = Input.GetAxis("Vertical");
-		float hor2 = Input.GetAxis("Horizontal2");
-		float ver2 = Input.GetAxis("Vertical2");
+		float hor = Input.GetAxis(horizontalAxis);
+		float ver = Input.GetAxis(verticalAxis);
+		float hor2 = Input.GetAxis(horizontalAxis2);
+		float ver2 = Input.GetAxis(verticalAxis2);
 
 		if (ani != null)
 		{
@@ -252,7 +260,7 @@ public class PlayerController : MonoBehaviour
 		if (!isSwitchingColors)
 		{
 			//firing, please change controller input future matt, fire should not be change color
-			if ((!controllerConnected && Input.GetMouseButton(0)) || (controllerConnected && Input.GetAxis("XboxOneTrigger") < 0))
+			if ((!controllerConnected && Input.GetMouseButton(0)) || (controllerConnected && Input.GetAxis(fireAxis) < 0))
 			{
 				//Fire();
 				if (!isDefending)
@@ -260,7 +268,8 @@ public class PlayerController : MonoBehaviour
 					FireWeapon();
 				}
 			}
-			if ((!controllerConnected && Input.GetKeyDown(KeyCode.F)) || (controllerConnected && Input.GetAxis("SwitchColor") == 1))
+			//if ((!controllerConnected && Input.GetKeyDown(KeyCode.F)) || (controllerConnected && Input.GetAxis(switchColorAxis) == 1))
+			if (Input.GetAxis(switchColorAxis) == 1)
 			{
 				isSwitchingColors = true;
 			}
@@ -307,7 +316,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if ((!controllerConnected && Input.GetMouseButtonUp(0)) || (controllerConnected && Input.GetAxis("XboxOneTrigger") >= 0))
+		if ((!controllerConnected && Input.GetMouseButtonUp(0)) || (controllerConnected && Input.GetAxis(fireAxis) >= 0))
 		{
 			//Debug.Log("mouse button up");
 			//unleash the charge move!
@@ -317,7 +326,7 @@ public class PlayerController : MonoBehaviour
 				//currentWeapons[currentColorEquipped].ChargeFire();
 				currentWeapon.ChargeFire();
 			}
-			//currentWeapon.CurrChargeTime = 0.0f;
+			currentWeapon.CurrChargeTime = 0.0f;
 		}
 
 		if (currDelay > 0)
