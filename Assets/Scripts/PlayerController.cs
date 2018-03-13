@@ -10,6 +10,9 @@ public class PlayerController : MonoBehaviour
 	private Animator ani;
 
 	//basic player variables
+	[Range (1,2)]
+	public int playerNum;
+
 	[SerializeField]
 	private float speed;
 	[SerializeField]
@@ -131,10 +134,26 @@ public class PlayerController : MonoBehaviour
 		isDefending = false;
 
 		//color setting
-		currentColors[0] = totalColors[0];
+		/*currentColors[0] = totalColors[0];
 		currentColors[1] = totalColors[1];
 		currentWeapons[0] = totalWeapons[0];
-		currentWeapons[1] = totalWeapons[1];
+		currentWeapons[1] = totalWeapons[1];*/
+
+		if (playerNum == 1)
+		{
+			currentColors[0] = totalColors[GameManager.Instance.playerOnePrimaryColorIndex];
+			currentColors[1] = totalColors[GameManager.Instance.playerOneSecondaryColorIndex];
+			currentWeapons[0] = totalWeapons[GameManager.Instance.playerOnePrimaryWeaponIndex];
+			currentWeapons[1] = totalWeapons[GameManager.Instance.playerOneSecondaryWeaponIndex];
+		} 
+		else if (playerNum == 2)
+		{
+			currentColors[0] = totalColors[GameManager.Instance.playerTwoPrimaryColorIndex];
+			currentColors[1] = totalColors[GameManager.Instance.playerTwoSecondaryColorIndex];
+			currentWeapons[0] = totalWeapons[GameManager.Instance.playerTwoPrimaryWeaponIndex];
+			currentWeapons[1] = totalWeapons[GameManager.Instance.playerTwoSecondaryWeaponIndex];
+		} 
+
 		currentWeapon = currentWeapons[0];
 
 		foreach (SpriteRenderer r in renderersToColor)

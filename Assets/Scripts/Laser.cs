@@ -6,6 +6,7 @@ public class Laser : Weapon
 {
 	private bool isFiring = false;
 	private LineRenderer lr;
+	private float _currChargeTime = 0.0f;
 
 	// Use this for initialization
 	void Start()
@@ -49,10 +50,10 @@ public class Laser : Weapon
 				lr.enabled = true;
 				lr.material.SetColor("_Color", bulletColor);
 
-				currChargeTime -= 0.01f;
-				if (currChargeTime <= 0.0f)
+				_currChargeTime -= 0.01f;
+				if (_currChargeTime <= 0.0f)
 				{
-					currChargeTime = 0.0f;
+					_currChargeTime = 0.0f;
 					isFiring = false;
 					fireAudio.Play();
 				}
@@ -75,7 +76,7 @@ public class Laser : Weapon
 	public override void ChargeFire()
 	{
 		//StartCoroutine(LaserFire());
-		currChargeTime = chargeTime;
+		_currChargeTime = chargeTime;
 		chargeAudio.Play();
 		isFiring = true;
 	}
