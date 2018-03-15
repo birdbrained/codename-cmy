@@ -50,19 +50,14 @@ public class GameManager : MonoBehaviour
 	}
 
 	//determine which color beats which color: 
-	//	positive num for cyan -> magenta -> yellow -> cyan
-	//	negative num for cyan <- magenta <- yellow <- cyan
+	//	positive num or 0 for cyan -> magenta -> yellow -> cyan (0 -> 1 -> 2)
+	//	negative num for      cyan <- magenta <- yellow <- cyan (0 <- 1 <- 2)
 	private int colorOrder;
 
 	// Use this for initialization
 	void Start () 
 	{
 		DetermineWeapons(colorIndexMatchesWeaponIndex);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 
 	/**
@@ -139,5 +134,40 @@ public class GameManager : MonoBehaviour
 			playerTwoPrimaryColorIndex = playerData[1, 0];
 			playerTwoSecondaryColorIndex = playerData[1, 1];
 		}
+	}
+
+	public float DamageModifier(int attackingColorIndex, int defendingColorIndex)
+	{
+		//if colors match, it is a draw
+		if (attackingColorIndex == defendingColorIndex)
+			return 1.0f;
+
+		//positive num or 0 for cyan -> magenta -> yellow -> cyan (0 -> 1 -> 2)
+		if (colorOrder >= 0)
+		{
+			if (attackingColorIndex == 2 && defendingColorIndex == 0)
+				attackingColorIndex = -1;
+			if (defendingColorIndex == 2 && attackingColorIndex == 0)
+				defendingColorIndex = -1;
+
+			//return double damage if attacker wins the matchup
+			if (attackingColorIndex < defendingColorIndex)
+				return 2.0f;
+		}
+		//negative num for cyan <- magenta <- yellow <- cyan (0 <- 1 <- 2)
+		else
+		{
+			if (attackingColorIndex == 2 && defendingColorIndex == 0)
+				attackingColorIndex = -1;
+			if (defendingColorIndex == 2 && attackingColorIndex == 0)
+				defendingColorIndex = -1;
+
+			//return double damage if attacker wins the matchup
+			if (attackingColorIndex > defendingColorIndex)
+				return 2.0f;
+		}
+
+		//return half damage if defender wins the matchup
+		return 0.5f;
 	}
 }

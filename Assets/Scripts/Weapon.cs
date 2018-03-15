@@ -61,6 +61,7 @@ public abstract class Weapon : MonoBehaviour
 			bulletColor = value;
 		}
 	}
+	public int bulletColorIndex;
 
 	[SerializeField]
 	protected float speed;

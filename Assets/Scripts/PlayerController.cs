@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
 	//basic player variables
 	[Range (1,2)]
-	public int playerNum;
+	public int playerNum = 1;
 
 	[SerializeField]
 	private float speed;
@@ -98,6 +98,7 @@ public class PlayerController : MonoBehaviour
 	public string verticalAxis2 = "Vertical2";
 	public string fireAxis = "XboxOneTrigger";
 	public string switchColorAxis = "SwitchColor";
+	private Dictionary<string, string> keyBindings = new Dictionary<string, string>();
 
 	/*void Awake()
 	{
@@ -155,6 +156,7 @@ public class PlayerController : MonoBehaviour
 		} 
 
 		currentWeapon = currentWeapons[0];
+		AssignWeaponColorIndexes();
 
 		foreach (SpriteRenderer r in renderersToColor)
 		{
@@ -171,6 +173,14 @@ public class PlayerController : MonoBehaviour
 			//w.ControllerConnected = controllerConnected;
 			totalWeapons[i].BulletColor = totalColors[i];
 		}
+
+		//add input axises to dictionary
+		keyBindings.Add("horizontalAxis", horizontalAxis);
+		keyBindings.Add("verticalAxis", verticalAxis);
+		keyBindings.Add("horizontalAxis2", horizontalAxis2);
+		keyBindings.Add("verticalAxis2", verticalAxis2);
+		keyBindings.Add("fireAxis", fireAxis);
+		keyBindings.Add("switchColorAxis", switchColorAxis);
 	}
 	
 	// Update is called once per frame
@@ -366,6 +376,20 @@ public class PlayerController : MonoBehaviour
 		/*if (fireAudio != null)
 			fireAudio.Play();*/
 		currentWeapon.CurrChargeTime += Time.deltaTime;
+	}
+
+	void AssignWeaponColorIndexes()
+	{
+		if (playerNum == 1)
+		{
+			currentWeapons[0].bulletColorIndex = GameManager.Instance.playerOnePrimaryColorIndex;
+			currentWeapons[1].bulletColorIndex = GameManager.Instance.playerOneSecondaryColorIndex;
+		}
+		else if (playerNum == 2)
+		{
+			currentWeapons[0].bulletColorIndex = GameManager.Instance.playerTwoPrimaryColorIndex;
+			currentWeapons[1].bulletColorIndex = GameManager.Instance.playerTwoSecondaryColorIndex;
+		}
 	}
 
 	void HandleAnimations(float hor, float ver)

@@ -31,6 +31,7 @@ public class Shotgun : Weapon
 			for (int i = 0; i < 8; i++)
 			{
 				GameObject _bullet;
+				Bullet _bulletComponent;
 				if (controllerConnected)
 				{
 					_bullet = Instantiate(bulletObj, transform.position, transform.rotation);
@@ -39,9 +40,10 @@ public class Shotgun : Weapon
 				{
 					_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
 				}
+				_bulletComponent = _bullet.GetComponent<Bullet>();
 				_bullet.tag = tag;
 				_bullet.transform.localScale *= Random.Range(0.5f, 2f);
-				_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(Random.Range(0.8f, 1.3f));
+				_bulletComponent.ChangeBulletSpeedByPercent(Random.Range(0.8f, 1.3f));
 				Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
 				cursorPos.z = 5.23f;
 				Vector3 objectPos = Camera.main.WorldToScreenPoint(_bullet.transform.position);
@@ -49,7 +51,8 @@ public class Shotgun : Weapon
 				cursorPos.y = cursorPos.y - objectPos.y;
 				float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg + Random.Range(-10f, 11f);
 				_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
-				_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
+				_bulletComponent.FireSprite.material.color = bulletColor;
+				_bulletComponent.colorIndex = bulletColorIndex;
 			}
 			if (fireAudio != null)
 				fireAudio.Play();
@@ -62,6 +65,7 @@ public class Shotgun : Weapon
 		for (int i = 0; i < 16; i++)
 		{
 			GameObject _bullet;
+			Bullet _bulletComponent;
 			if (controllerConnected)
 			{
 				_bullet = Instantiate(bulletObj, transform.position, transform.rotation);
@@ -70,6 +74,7 @@ public class Shotgun : Weapon
 			{
 				_bullet = Instantiate(bulletObj, bulletSpawnPosition.transform.position, transform.rotation);
 			}
+			_bulletComponent = _bullet.GetComponent<Bullet>();
 			_bullet.tag = tag;
 			_bullet.transform.localScale *= 3.0f;
 			//_bullet.GetComponent<Bullet>().ChangeBulletSpeedByPercent(Random.Range(0.8f, 1.3f));
@@ -80,7 +85,8 @@ public class Shotgun : Weapon
 			cursorPos.y = cursorPos.y - objectPos.y;
 			float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg + Random.Range(-10f, 11f);
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 22.5f * i));
-			_bullet.GetComponent<Bullet>().FireSprite.material.color = bulletColor;
+			_bulletComponent.FireSprite.material.color = bulletColor;
+			_bulletComponent.colorIndex = bulletColorIndex;
 		}
 		currChargeTime = 0.0f;
 		if (chargeAudio != null)
