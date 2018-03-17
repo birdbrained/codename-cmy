@@ -105,6 +105,6 @@ public abstract class Weapon : MonoBehaviour
 	}
 
 	public abstract void Fire(string tag);
-	public abstract void ChargeFire();
+	public abstract void ChargeFire(string tag);
 	public abstract AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol);
 }

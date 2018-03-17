@@ -73,7 +73,7 @@ public class Laser : Weapon
 
 	}
 
-	public override void ChargeFire()
+	public override void ChargeFire(string tag)
 	{
 		//StartCoroutine(LaserFire());
 		_currChargeTime = chargeTime;

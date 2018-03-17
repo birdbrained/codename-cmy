@@ -60,7 +60,7 @@ public class Shotgun : Weapon
 		}
 	}
 
-	public override void ChargeFire()
+	public override void ChargeFire(string tag)
 	{
 		for (int i = 0; i < 16; i++)
 		{

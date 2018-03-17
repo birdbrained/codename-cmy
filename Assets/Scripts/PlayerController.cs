@@ -353,7 +353,7 @@ public class PlayerController : MonoBehaviour
 			if (currentWeapon.CurrChargeTime >= currentWeapon.ChargeTime && !isDefending)
 			{
 				//currentWeapons[currentColorEquipped].ChargeFire();
-				currentWeapon.ChargeFire();
+				currentWeapon.ChargeFire("player_bullet");
 			}
 			currentWeapon.CurrChargeTime = 0.0f;
 		}

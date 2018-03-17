@@ -58,7 +58,7 @@ public class Cannon : Weapon
 		}
 	}
 
-	public override void ChargeFire()
+	public override void ChargeFire(string tag)
 	{
 		GameObject _bullet;
 		Bullet _bulletComponent;
