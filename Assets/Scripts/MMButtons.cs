@@ -19,4 +19,14 @@ public class MMButtons : MonoBehaviour
 	{
 		Application.Quit();
 	}
+
+	public void EnableObj(GameObject obj)
+	{
+		obj.SetActive(true);
+	}
+
+	public void DisableObj(GameObject obj)
+	{
+		obj.SetActive(false);
+	}
 }

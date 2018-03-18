@@ -140,12 +140,16 @@ public class PlayerController : MonoBehaviour
 		currentWeapons[0] = totalWeapons[0];
 		currentWeapons[1] = totalWeapons[1];*/
 
-		if (playerNum == 1)
+		/*if (playerNum == 1)
 		{
 			currentColors[0] = totalColors[GameManager.Instance.playerOnePrimaryColorIndex];
 			currentColors[1] = totalColors[GameManager.Instance.playerOneSecondaryColorIndex];
 			currentWeapons[0] = totalWeapons[GameManager.Instance.playerOnePrimaryWeaponIndex];
 			currentWeapons[1] = totalWeapons[GameManager.Instance.playerOneSecondaryWeaponIndex];
+			Debug.Log("Player 1 received: " + GameManager.Instance.playerOnePrimaryColorIndex.ToString() + " " +
+			GameManager.Instance.playerOneSecondaryColorIndex.ToString() + " " +
+			GameManager.Instance.playerOnePrimaryWeaponIndex.ToString() + " " +
+			GameManager.Instance.playerOneSecondaryWeaponIndex.ToString());
 		} 
 		else if (playerNum == 2)
 		{
@@ -153,10 +157,10 @@ public class PlayerController : MonoBehaviour
 			currentColors[1] = totalColors[GameManager.Instance.playerTwoSecondaryColorIndex];
 			currentWeapons[0] = totalWeapons[GameManager.Instance.playerTwoPrimaryWeaponIndex];
 			currentWeapons[1] = totalWeapons[GameManager.Instance.playerTwoSecondaryWeaponIndex];
-		} 
+		}*/
 
-		currentWeapon = currentWeapons[0];
-		AssignWeaponColorIndexes();
+		//currentWeapon = currentWeapons[0];
+		//AssignWeaponColorIndexes();
 
 		foreach (SpriteRenderer r in renderersToColor)
 		{
@@ -186,7 +190,7 @@ public class PlayerController : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
 	{
-		if (delayRing != null)
+		if (delayRing != null && currentWeapon != null)
 		{
 			delayRing.fillAmount = ((float)currentWeapon.CurrChargeTime / (float)currentWeapon.ChargeTime);
 		}
@@ -244,7 +248,7 @@ public class PlayerController : MonoBehaviour
 		if (shieldObj != null)
 		{
 			//right click or left trigger to defend
-			if (Input.GetMouseButton(1))
+			if ((!controllerConnected && Input.GetMouseButton(1)) || controllerConnected && Input.GetAxis(fireAxis) > 0.5)
 			{
 				shieldObj.SetActive(true);
 				isDefending = true;
@@ -253,10 +257,18 @@ public class PlayerController : MonoBehaviour
 				//use the inputs from the right stick if you are using a controller
 				if (controllerConnected)
 				{
-					shieldObj.transform.localPosition = new Vector3(
-						hor2 * shieldDistance + transform.localPosition.x,
-						ver2 * shieldDistance + transform.localPosition.y, 0);
-				} 
+					if (Input.GetAxis(horizontalAxis2) == 0 && Input.GetAxis(verticalAxis2) == 0)
+					{
+						shieldObj.SetActive(false);
+						isDefending = false;
+					}
+					else
+					{
+						shieldObj.transform.localPosition = new Vector3(
+							hor2 * shieldDistance + transform.localPosition.x,
+							ver2 * shieldDistance + transform.localPosition.y, 0);
+					}
+				}
 				//otherwise need to figure the angle from how the cursor relates to the player
 				else
 				{
@@ -415,6 +427,29 @@ public class PlayerController : MonoBehaviour
 			scale.x *= -1;
 			transform.localScale = scale;
 		}
+	}
+
+	public void SetCurrentColors(int primary, int secondary)
+	{
+		currentColors[0] = totalColors[primary];
+		currentColors[1] = totalColors[secondary];
+		currentColorEquipped = 0;
+		for (int i = 0; i < renderersToColor.Length; i++)
+		{
+			renderersToColor[i].material.color = currentColors[0];
+		}
+		for (int i = 0; i < imagesToColor.Length; i++)
+		{
+			imagesToColor[i].color = currentColors[0];
+		}
+	}
+
+	public void SetCurrentWeapons(int primary, int secondary)
+	{
+		currentWeapons[0] = totalWeapons[primary];
+		currentWeapons[1] = totalWeapons[secondary];
+		currentWeapon = currentWeapons[0];
+		AssignWeaponColorIndexes();
 	}
 
 	/*public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)

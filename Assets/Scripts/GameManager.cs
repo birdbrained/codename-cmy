@@ -17,6 +17,18 @@ public class GameManager : MonoBehaviour
 			return instance;
 		}
 	}
+	private static GameSettings gsInstance;
+	public static GameSettings GSInstance
+	{
+		get
+		{
+			if (gsInstance == null)
+			{
+				gsInstance = new GameSettings();
+			}
+			return gsInstance;
+		}
+	}
 
 	//the pool of colors to pick from
 	[SerializeField]
@@ -33,6 +45,33 @@ public class GameManager : MonoBehaviour
 	public int playerOneSecondaryColorIndex;
 	public int playerTwoPrimaryColorIndex;
 	public int playerTwoSecondaryColorIndex;
+
+	[SerializeField]
+	private PlayerController player1;
+	public PlayerController Player1
+	{
+		get
+		{
+			return player1;
+		}
+		set
+		{
+			player1 = value;
+		}
+	}
+	[SerializeField]
+	private PlayerController player2;
+	public PlayerController Player2
+	{
+		get
+		{
+			return player2;
+		}
+		set
+		{
+			player2 = value;
+		}
+	}
 
 	//if true, make the color indexes correspond to the weapon indexes
 	//if false, randomize the color associated with each weapon
@@ -58,6 +97,13 @@ public class GameManager : MonoBehaviour
 	void Start () 
 	{
 		DetermineWeapons(colorIndexMatchesWeaponIndex);
+		if (Player1 != null && Player2 != null)
+		{
+			Player1.SetCurrentColors(playerOnePrimaryColorIndex, playerOneSecondaryColorIndex);
+			Player2.SetCurrentColors(playerTwoPrimaryColorIndex, playerTwoSecondaryColorIndex);
+			Player1.SetCurrentWeapons(playerOnePrimaryWeaponIndex, playerOneSecondaryWeaponIndex);
+			Player2.SetCurrentWeapons(playerTwoPrimaryWeaponIndex, playerTwoSecondaryWeaponIndex);
+		}
 	}
 
 	/**
