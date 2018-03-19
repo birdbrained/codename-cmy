@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
 	//	positive num or 0 for cyan -> magenta -> yellow -> cyan (0 -> 1 -> 2)
 	//	negative num for      cyan <- magenta <- yellow <- cyan (0 <- 1 <- 2)
 	private int colorOrder;
+	public bool randomizePlayerControls = false;
 
 	// Use this for initialization
 	void Start () 
@@ -215,5 +216,15 @@ public class GameManager : MonoBehaviour
 
 		//return half damage if defender wins the matchup
 		return 0.5f;
+	}
+
+	void RandomizeControls()
+	{
+		
+	}
+
+	void UpdatePlayerInfo()
+	{
+		
 	}
 }

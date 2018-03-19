@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
 	private int maxHealth = 100;
 	private int currHealth;
 	private bool facingRight;
+	private float horizontalInvert = 1.0f;
+	private float verticalInvert = 1.0f;
+	private float horizontal2Invert = 1.0f;
+	private float vertical2Invert = 1.0f;
 
 	//health bar data
 	[SerializeField]
@@ -98,6 +102,10 @@ public class PlayerController : MonoBehaviour
 	public string verticalAxis2 = "Vertical2";
 	public string fireAxis = "XboxOneTrigger";
 	public string switchColorAxis = "SwitchColor";
+	public int mouseFireButton = 0;
+	public int mouseDefendButton = 1;
+	[SerializeField]
+	private ControllerInfo controllerInfo;
 	private Dictionary<string, string> keyBindings = new Dictionary<string, string>();
 
 	/*void Awake()
@@ -115,6 +123,10 @@ public class PlayerController : MonoBehaviour
 		if (armObj != null)
 		{
 			armPointer = armObj.GetComponent<PointAtObject>();
+		}
+		if (controllerInfo != null)
+		{
+			LoadDefaultControls();
 		}
 
 		currHealth = maxHealth;
@@ -217,8 +229,8 @@ public class PlayerController : MonoBehaviour
 		}
 
 		rb.velocity = new Vector2(
-			Mathf.Lerp(0, hor * speed, 0.8f),
-			Mathf.Lerp(0, ver * speed, 0.8f)
+			Mathf.Lerp(0, hor * speed * horizontalInvert, 0.8f),
+			Mathf.Lerp(0, ver * speed * verticalInvert, 0.8f)
 		);
 
 		if (cursorObj != null)
@@ -235,8 +247,8 @@ public class PlayerController : MonoBehaviour
 				}
 
 				cursorObj.transform.localPosition = new Vector3(
-					hor2 * cursorDistance + transform.localPosition.x, 
-					ver2 * cursorDistance + transform.localPosition.y, 0);
+					hor2 * cursorDistance + transform.localPosition.x * horizontal2Invert, 
+					ver2 * cursorDistance + transform.localPosition.y * vertical2Invert, 0);
 			}
 			else
 			{
@@ -248,7 +260,7 @@ public class PlayerController : MonoBehaviour
 		if (shieldObj != null)
 		{
 			//right click or left trigger to defend
-			if ((!controllerConnected && Input.GetMouseButton(1)) || controllerConnected && Input.GetAxis(fireAxis) > 0.5)
+			if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && Input.GetAxis(fireAxis) > 0.5)
 			{
 				shieldObj.SetActive(true);
 				isDefending = true;
@@ -265,8 +277,8 @@ public class PlayerController : MonoBehaviour
 					else
 					{
 						shieldObj.transform.localPosition = new Vector3(
-							hor2 * shieldDistance + transform.localPosition.x,
-							ver2 * shieldDistance + transform.localPosition.y, 0);
+							hor2 * shieldDistance + transform.localPosition.x * horizontal2Invert,
+							ver2 * shieldDistance + transform.localPosition.y * vertical2Invert, 0);
 					}
 				}
 				//otherwise need to figure the angle from how the cursor relates to the player
@@ -280,8 +292,8 @@ public class PlayerController : MonoBehaviour
 					float shieldY = curY / c;
 
 					shieldObj.transform.localPosition = new Vector3(
-						shieldX * shieldDistance + transform.localPosition.x,
-						shieldY * shieldDistance + transform.localPosition.y, 0);
+						shieldX * shieldDistance + transform.localPosition.x * horizontal2Invert,
+						shieldY * shieldDistance + transform.localPosition.y * vertical2Invert, 0);
 				}
 			}
 			else
@@ -301,7 +313,7 @@ public class PlayerController : MonoBehaviour
 		if (!isSwitchingColors)
 		{
 			//firing, please change controller input future matt, fire should not be change color
-			if ((!controllerConnected && Input.GetMouseButton(0)) || (controllerConnected && Input.GetAxis(fireAxis) < 0))
+			if ((!controllerConnected && Input.GetMouseButton(mouseFireButton)) || (controllerConnected && Input.GetAxis(fireAxis) < 0))
 			{
 				//Fire();
 				if (!isDefending)
@@ -416,6 +428,23 @@ public class PlayerController : MonoBehaviour
 		{
 			ani.SetLayerWeight(1, 0);
 		}
+	}
+
+	void LoadDefaultControls()
+	{
+		horizontalAxis = controllerInfo.horAxis;
+		verticalAxis = controllerInfo.verAxis;
+		horizontalAxis2 = controllerInfo.horAxis2;
+		verticalAxis2 = controllerInfo.verAxis2;
+		fireAxis = controllerInfo.fireAxis;
+		switchColorAxis = controllerInfo.switchColor;
+		mouseFireButton = controllerInfo.mouseFireButton;
+		mouseDefendButton = controllerInfo.mouseDefendButton;
+		controllerConnected = controllerInfo.isController;
+		horizontalInvert = controllerInfo.horizontalInvert;
+		verticalInvert = controllerInfo.verticalInvert;
+		horizontal2Invert = controllerInfo.horizontal2Invert;
+		vertical2Invert = controllerInfo.vertical2Invert;
 	}
 
 	public void ChangeDirection(float hor)
