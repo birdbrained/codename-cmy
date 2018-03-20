@@ -462,6 +462,7 @@ public class PlayerController : MonoBehaviour
 	{
 		currentColors[0] = totalColors[primary];
 		currentColors[1] = totalColors[secondary];
+		Debug.Log("Player (" + playerNum.ToString() + ") colors are (" + primary.ToString() + secondary.ToString());
 		currentColorEquipped = 0;
 		for (int i = 0; i < renderersToColor.Length; i++)
 		{
@@ -469,7 +470,7 @@ public class PlayerController : MonoBehaviour
 		}
 		for (int i = 0; i < imagesToColor.Length; i++)
 		{
-			imagesToColor[i].color = currentColors[0];
+			imagesToColor[i].color = totalColors[primary];
 		}
 	}
 

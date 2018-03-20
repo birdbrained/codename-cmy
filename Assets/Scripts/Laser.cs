@@ -7,6 +7,8 @@ public class Laser : Weapon
 	private bool isFiring = false;
 	private LineRenderer lr;
 	private float _currChargeTime = 0.0f;
+	[SerializeField]
+	private float range = 5.0f;
 
 	// Use this for initialization
 	void Start()
@@ -33,20 +35,30 @@ public class Laser : Weapon
 		{
 			if (isFiring)
 			{
-				Ray2D ray = new Ray2D(transform.position, transform.forward);
+				Ray ray = new Ray(transform.position, transform.forward * range);
 
 				Vector3 cursorPos = Camera.main.WorldToScreenPoint(cursorObj.transform.position);
-				cursorPos.z = 5.23f;
+				cursorPos.z = 0.0f;
 				//Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
 				//cursorPos.x = cursorPos.x - objectPos.x;
 				//cursorPos.y = cursorPos.y - objectPos.y;
 				//float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg;
-				RaycastHit2D hit = Physics2D.Raycast(transform.position, cursorPos, 1.0f);
+
+				//RaycastHit2D hit = Physics2D.Raycast(transform.position, cursorPos, 1.0f);
+
+				RaycastHit hit;
+				Vector3 direction = transform.TransformDirection(cursorPos);
+				if (Physics.Raycast(transform.position, direction, out hit, range))
+				{
+					Debug.Log("Hit " + hit.collider.name);
+				}
+
 				if (controllerConnected)
 					lr.SetPosition(0, transform.position);
 				else
 					lr.SetPosition(0, bulletSpawnPosition.transform.position);
-				lr.SetPosition(1, cursorObj.transform.position);
+				//lr.SetPosition(1, cursorObj.transform.position);
+				lr.SetPosition(1, direction);
 				lr.enabled = true;
 				lr.material.SetColor("_Color", bulletColor);
 

@@ -176,10 +176,10 @@ public class GameManager : MonoBehaviour
 
 		if (applyToColor)
 		{
-			playerOnePrimaryColorIndex = playerData[0, 0];
-			playerOneSecondaryColorIndex = playerData[0, 1];
-			playerTwoPrimaryColorIndex = playerData[1, 0];
-			playerTwoSecondaryColorIndex = playerData[1, 1];
+			playerOnePrimaryColorIndex = playerOnePrimaryWeaponIndex;
+			playerOneSecondaryColorIndex = playerOneSecondaryWeaponIndex;
+			playerTwoPrimaryColorIndex = playerTwoPrimaryWeaponIndex;
+			playerTwoSecondaryColorIndex = playerTwoSecondaryWeaponIndex;
 		}
 	}
 
