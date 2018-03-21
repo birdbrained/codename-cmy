@@ -1,4 +1,8 @@
-﻿public class ControllerInfo
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class ControllerInfo : MonoBehaviour
 {
 	//true if controller, false if keyboard
 	public bool isController;
@@ -19,4 +23,5 @@
 	public float verticalInvert = 1.0f;
 	public float horizontal2Invert = 1.0f;
 	public float vertical2Invert = 1.0f;
+	public float fireAndDefendInvert = 1.0f;
 }

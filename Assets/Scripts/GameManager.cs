@@ -88,11 +88,73 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
+	private static ControllerInfo player1ControllerInfo;
+	public ControllerInfo Player1ControllerInfo
+	{
+		get
+		{
+			return player1ControllerInfo;
+		}
+		set
+		{
+			player1ControllerInfo = value;
+		}
+	}
+	private static ControllerInfo player2ControllerInfo;
+	public ControllerInfo Player2ControllerInfo
+	{
+		get
+		{
+			return player2ControllerInfo;
+		}
+		set
+		{
+			player2ControllerInfo = value;
+		}
+	}
+
 	//determine which color beats which color: 
 	//	positive num or 0 for cyan -> magenta -> yellow -> cyan (0 -> 1 -> 2)
 	//	negative num for      cyan <- magenta <- yellow <- cyan (0 <- 1 <- 2)
 	private int colorOrder;
-	public bool randomizePlayerControls = false;
+	private static bool randomizePlayerControls = false;
+	public bool RandomizePlayerControls
+	{
+		get
+		{
+			return randomizePlayerControls;
+		}
+		set
+		{
+			randomizePlayerControls = value;
+		}
+	}
+
+	private static int hardMode;
+	public int HardMode
+	{
+		get
+		{
+			return hardMode;
+		}
+		set
+		{
+			hardMode = value;
+		}
+	}
+
+	[SerializeField][Range (0,100)]
+	private int invertMovementPercentage;
+	[SerializeField][Range (0,100)]
+	private int invertAimingPercentage;
+	[SerializeField][Range (0,100)]
+	private int swapFireAndDefendPercentage;
+	[SerializeField][Range (0,100)]
+	private int samePlayerControlsMovementPercentage;
+	[SerializeField][Range (0,100)]
+	private int samePlayerControlsFiringPercentage;
+	[SerializeField][Range (0,100)]
+	private int switchMoveAndFirePercentage;
 
 	// Use this for initialization
 	void Start () 
@@ -104,6 +166,12 @@ public class GameManager : MonoBehaviour
 			Player2.SetCurrentColors(playerTwoPrimaryColorIndex, playerTwoSecondaryColorIndex);
 			Player1.SetCurrentWeapons(playerOnePrimaryWeaponIndex, playerOneSecondaryWeaponIndex);
 			Player2.SetCurrentWeapons(playerTwoPrimaryWeaponIndex, playerTwoSecondaryWeaponIndex);
+		}
+
+		if (randomizePlayerControls && Player1 != null && Player2 != null)
+		{
+			DetermineRandomPercents(hardMode);
+			RandomizeControls();
 		}
 	}
 
@@ -218,9 +286,135 @@ public class GameManager : MonoBehaviour
 		return 0.5f;
 	}
 
+	void DetermineRandomPercents(int modifier)
+	{
+		/*private int invertMovementPercentage;
+		[SerializeField][Range (0,100)]
+		private int invertAimingPercentage;
+		[SerializeField][Range (0,100)]
+		private int swapFireAndDefendPercentage;
+		[SerializeField][Range (0,100)]
+		private int samePlayerControlsMovementPercentage;
+		[SerializeField][Range (0,100)]
+		private int samePlayerControlsFiringPercentage;
+		[SerializeField][Range (0,100)]
+		private int switchMoveAndFirePercentage;
+		 */
+
+		switch (modifier)
+		{
+		case 1:
+			invertMovementPercentage = 30;
+			invertAimingPercentage = 30;
+			//swapFireAndDefendPercentage = 0;
+			samePlayerControlsMovementPercentage = 30;
+			samePlayerControlsFiringPercentage = 30;
+			switchMoveAndFirePercentage = 30;
+			break;
+		case 2:
+			invertMovementPercentage = 70;
+			invertAimingPercentage = 70;
+			//swapFireAndDefendPercentage = 0;
+			samePlayerControlsMovementPercentage = 70;
+			samePlayerControlsFiringPercentage = 70;
+			switchMoveAndFirePercentage = 70;
+			break;
+		default:
+			invertMovementPercentage = 0;
+			invertAimingPercentage = 0;
+			//swapFireAndDefendPercentage = 0;
+			samePlayerControlsMovementPercentage = 0;
+			samePlayerControlsFiringPercentage = 0;
+			switchMoveAndFirePercentage = 0;
+			break;
+		}
+	}
+
 	void RandomizeControls()
 	{
-		
+		/*private int invertMovementPercentage;
+		private int invertAimingPercentage;
+		private int swapFireAndDefendPercentage;
+		private int samePlayerControlsMovementPercentage;
+		private int samePlayerControlsFiringPercentage;
+		switchMoveAndFirePercentage*/
+
+		int rando = Random.Range(1, 101);
+		if (rando <= invertMovementPercentage)
+		{
+			Player1.horizontalInvert *= -1.0f;
+			Player1.verticalInvert *= -1.0f;
+			Player2.horizontalInvert *= -1.0f;
+			Player2.verticalInvert *= -1.0f;
+		}
+
+		rando = Random.Range(1, 101);
+		if (rando <= invertAimingPercentage)
+		{
+			Player1.horizontal2Invert *= -1.0f;
+			Player1.vertical2Invert *= -1.0f;
+			Player2.horizontal2Invert *= -1.0f;
+			Player2.vertical2Invert *= -1.0f;
+		}
+
+		rando = Random.Range(1, 101);
+		if (rando <= swapFireAndDefendPercentage)
+		{
+			Player1.fireAndDefendInvert *= -1.0f;
+			Player2.fireAndDefendInvert *= -1.0f;
+		}
+
+		rando = Random.Range(1, 101);
+		if (rando <= samePlayerControlsMovementPercentage)
+		{
+			int whichPlayer = Random.Range(1, 3);
+			if (whichPlayer == 1)
+			{
+				Player2.horizontalAxis = Player1.horizontalAxis;
+				Player2.verticalAxis = Player1.verticalAxis;
+			} 
+			else
+			{
+				Player1.horizontalAxis = Player2.horizontalAxis;
+				Player1.verticalAxis = Player2.verticalAxis;
+			}
+		}
+
+		rando = Random.Range(1, 101);
+		if (rando <= samePlayerControlsFiringPercentage)
+		{
+			int whichPlayer = Random.Range(1, 3);
+			if (whichPlayer == 1)
+			{
+				Player2.horizontalAxis2 = Player1.horizontalAxis2;
+				Player2.verticalAxis2 = Player1.verticalAxis2;
+			} 
+			else
+			{
+				Player1.horizontalAxis2 = Player2.horizontalAxis2;
+				Player1.verticalAxis2 = Player2.verticalAxis2;
+			}
+		}
+
+		rando = Random.Range(1, 101);
+		if (rando <= switchMoveAndFirePercentage)
+		{
+			string temp = Player1.horizontalAxis;
+			Player1.horizontalAxis = Player1.horizontalAxis2;
+			Player1.horizontalAxis2 = temp;
+
+			temp = Player1.verticalAxis;
+			Player1.verticalAxis = Player1.verticalAxis2;
+			Player1.verticalAxis2 = temp;
+
+			temp = Player2.horizontalAxis;
+			Player2.horizontalAxis = Player2.horizontalAxis2;
+			Player2.horizontalAxis2 = temp;
+
+			temp = Player2.verticalAxis;
+			Player2.verticalAxis = Player2.verticalAxis2;
+			Player2.verticalAxis2 = temp;
+		}
 	}
 
 	void UpdatePlayerInfo()

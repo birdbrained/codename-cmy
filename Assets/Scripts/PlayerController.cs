@@ -19,10 +19,11 @@ public class PlayerController : MonoBehaviour
 	private int maxHealth = 100;
 	private int currHealth;
 	private bool facingRight;
-	private float horizontalInvert = 1.0f;
-	private float verticalInvert = 1.0f;
-	private float horizontal2Invert = 1.0f;
-	private float vertical2Invert = 1.0f;
+	public float horizontalInvert = 1.0f;
+	public float verticalInvert = 1.0f;
+	public float horizontal2Invert = 1.0f;
+	public float vertical2Invert = 1.0f;
+	public float fireAndDefendInvert = 1.0f;
 
 	//health bar data
 	[SerializeField]
@@ -245,10 +246,10 @@ public class PlayerController : MonoBehaviour
 				{
 					cursorSr.enabled = true;
 				}
-
+					
 				cursorObj.transform.localPosition = new Vector3(
-					hor2 * cursorDistance + transform.localPosition.x * horizontal2Invert, 
-					ver2 * cursorDistance + transform.localPosition.y * vertical2Invert, 0);
+					hor2 * horizontal2Invert * cursorDistance + transform.localPosition.x, 
+					ver2 * vertical2Invert * cursorDistance + transform.localPosition.y, 0);
 			}
 			else
 			{
@@ -260,7 +261,7 @@ public class PlayerController : MonoBehaviour
 		if (shieldObj != null)
 		{
 			//right click or left trigger to defend
-			if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && Input.GetAxis(fireAxis) > 0.5)
+			if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert > 0.5)
 			{
 				shieldObj.SetActive(true);
 				isDefending = true;
@@ -277,8 +278,8 @@ public class PlayerController : MonoBehaviour
 					else
 					{
 						shieldObj.transform.localPosition = new Vector3(
-							hor2 * shieldDistance + transform.localPosition.x * horizontal2Invert,
-							ver2 * shieldDistance + transform.localPosition.y * vertical2Invert, 0);
+							hor2 * horizontal2Invert * shieldDistance + transform.localPosition.x,
+							ver2 * vertical2Invert * shieldDistance + transform.localPosition.y, 0);
 					}
 				}
 				//otherwise need to figure the angle from how the cursor relates to the player
@@ -313,7 +314,7 @@ public class PlayerController : MonoBehaviour
 		if (!isSwitchingColors)
 		{
 			//firing, please change controller input future matt, fire should not be change color
-			if ((!controllerConnected && Input.GetMouseButton(mouseFireButton)) || (controllerConnected && Input.GetAxis(fireAxis) < 0))
+			if ((!controllerConnected && Input.GetMouseButton(mouseFireButton)) || (controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert < 0))
 			{
 				//Fire();
 				if (!isDefending)
@@ -432,6 +433,11 @@ public class PlayerController : MonoBehaviour
 
 	void LoadDefaultControls()
 	{
+		/*if (playerNum == 1)
+			controllerInfo = GameManager.Instance.Player1ControllerInfo;
+		else
+			controllerInfo = GameManager.Instance.Player2ControllerInfo;*/
+		
 		horizontalAxis = controllerInfo.horAxis;
 		verticalAxis = controllerInfo.verAxis;
 		horizontalAxis2 = controllerInfo.horAxis2;
@@ -445,6 +451,7 @@ public class PlayerController : MonoBehaviour
 		verticalInvert = controllerInfo.verticalInvert;
 		horizontal2Invert = controllerInfo.horizontal2Invert;
 		vertical2Invert = controllerInfo.vertical2Invert;
+		fireAndDefendInvert = controllerInfo.fireAndDefendInvert;
 	}
 
 	public void ChangeDirection(float hor)
@@ -470,7 +477,7 @@ public class PlayerController : MonoBehaviour
 		}
 		for (int i = 0; i < imagesToColor.Length; i++)
 		{
-			imagesToColor[i].color = totalColors[primary];
+			imagesToColor[i].color = currentColors[0];
 		}
 	}
 
