@@ -33,6 +33,13 @@ public class GameManager : MonoBehaviour
 	//the pool of colors to pick from
 	[SerializeField]
 	private Color[] playerColors;
+	public Color[] PlayerColors
+	{
+		get
+		{
+			return playerColors;
+		}
+	}
 
 	//info about player's weapons: 0 = cannon, 1 = shotgun, 2 = laser
 	public int playerOnePrimaryWeaponIndex;
@@ -70,6 +77,19 @@ public class GameManager : MonoBehaviour
 		set
 		{
 			player2 = value;
+		}
+	}
+	[SerializeField]
+	private PrinterBoss boss; //might have to change this to be obj-orn later
+	public PrinterBoss Boss
+	{
+		get
+		{
+			return boss;
+		}
+		set
+		{
+			boss = value;
 		}
 	}
 
@@ -156,6 +176,10 @@ public class GameManager : MonoBehaviour
 	[SerializeField][Range (0,100)]
 	private int switchMoveAndFirePercentage;
 
+	public GameObject CritParticle;
+	public GameObject ResistParticle;
+	public GameObject WhiffParticle;
+
 	// Use this for initialization
 	void Start () 
 	{
@@ -166,6 +190,10 @@ public class GameManager : MonoBehaviour
 			Player2.SetCurrentColors(playerTwoPrimaryColorIndex, playerTwoSecondaryColorIndex);
 			Player1.SetCurrentWeapons(playerOnePrimaryWeaponIndex, playerOneSecondaryWeaponIndex);
 			Player2.SetCurrentWeapons(playerTwoPrimaryWeaponIndex, playerTwoSecondaryWeaponIndex);
+		}
+		if (Boss != null)
+		{
+			DecideBossColors(true);
 		}
 
 		if (randomizePlayerControls && Player1 != null && Player2 != null)
@@ -255,7 +283,7 @@ public class GameManager : MonoBehaviour
 	{
 		//if colors match, it is a draw
 		if (attackingColorIndex == defendingColorIndex)
-			return 1.0f;
+			return 0.0f;
 
 		//positive num or 0 for cyan -> magenta -> yellow -> cyan (0 -> 1 -> 2)
 		if (colorOrder >= 0)
@@ -415,6 +443,22 @@ public class GameManager : MonoBehaviour
 			Player2.verticalAxis = Player2.verticalAxis2;
 			Player2.verticalAxis2 = temp;
 		}
+	}
+
+	void DecideBossColors(bool differentColors)
+	{
+		int color1 = Random.Range(0, 3);
+		int color2 = color1;
+
+		if (differentColors)
+		{
+			while (color1 == color2)
+			{
+				color2 = Random.Range(0, 3);
+			}
+		}
+
+		Boss.SetBossColors(color1, playerColors[color1], color2, playerColors[color2]);
 	}
 
 	void UpdatePlayerInfo()

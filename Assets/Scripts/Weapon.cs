@@ -77,6 +77,34 @@ public abstract class Weapon : MonoBehaviour
 		}
 	}
 
+	[SerializeField]
+	protected float damageAmount;
+	public float DamageAmount
+	{
+		get
+		{
+			return damageAmount;
+		}
+		set
+		{
+			damageAmount = value;
+		}
+	}
+
+	[SerializeField]
+	protected float chargeDamageAmount;
+	public float ChargeDamageAmount
+	{
+		get
+		{
+			return chargeDamageAmount;
+		}
+		set
+		{
+			chargeDamageAmount = value;
+		}
+	}
+
 	//fire sound
 	[SerializeField]
 	protected AudioClip fireClip;

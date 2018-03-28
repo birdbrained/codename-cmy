@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
 	[SerializeField]
 	private float speed;
+	public float damageAmount;
 	public int colorIndex;
 	[SerializeField]
 	private SpriteRenderer fireSprite;

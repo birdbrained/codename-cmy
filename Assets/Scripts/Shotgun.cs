@@ -53,6 +53,7 @@ public class Shotgun : Weapon
 				_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
 				_bulletComponent.FireSprite.material.color = bulletColor;
 				_bulletComponent.colorIndex = bulletColorIndex;
+				_bulletComponent.damageAmount = damageAmount;
 			}
 			if (fireAudio != null)
 				fireAudio.Play();
@@ -87,6 +88,7 @@ public class Shotgun : Weapon
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 22.5f * i));
 			_bulletComponent.FireSprite.material.color = bulletColor;
 			_bulletComponent.colorIndex = bulletColorIndex;
+			_bulletComponent.damageAmount = chargeDamageAmount;
 		}
 		currChargeTime = 0.0f;
 		if (chargeAudio != null)

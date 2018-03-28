@@ -82,6 +82,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private Image[] imagesToColor;
 	[SerializeField]
+	private Image[] imagesToColorSecondary;
+	[SerializeField]
 	private float switchDuration;
 	private float t = 0.0f;
 	private bool isSwitchingColors = false;
@@ -353,6 +355,17 @@ public class PlayerController : MonoBehaviour
 					imagesToColor[i].color = Color.Lerp(currentColors[1], currentColors[0], t);
 				}
 			}
+			for (int i = 0; i < imagesToColorSecondary.Length; i++)
+			{
+				if (currentColorEquipped == 0)
+				{
+					imagesToColorSecondary[i].color = Color.Lerp(currentColors[1], currentColors[0], t);
+				}
+				else
+				{
+					imagesToColorSecondary[i].color = Color.Lerp(currentColors[0], currentColors[1], t);
+				}
+			}
 
 
 			if (t < 1.0f)
@@ -478,6 +491,10 @@ public class PlayerController : MonoBehaviour
 		for (int i = 0; i < imagesToColor.Length; i++)
 		{
 			imagesToColor[i].color = currentColors[0];
+		}
+		for (int i = 0; i < imagesToColorSecondary.Length; i++)
+		{
+			imagesToColorSecondary[i].color = currentColors[1];
 		}
 	}
 

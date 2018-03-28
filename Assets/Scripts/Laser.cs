@@ -9,6 +9,7 @@ public class Laser : Weapon
 	private float _currChargeTime = 0.0f;
 	[SerializeField]
 	private float range = 5.0f;
+	private bool canSpawnParticle = true;
 
 	// Use this for initialization
 	void Start()
@@ -62,6 +63,37 @@ public class Laser : Weapon
 				lr.enabled = true;
 				lr.material.SetColor("_Color", bulletColor);
 
+				//eheh
+				Collider2D[] colliders = Physics2D.OverlapCircleAll(cursorObj.transform.position, 1.0f);
+				if (colliders.Length > 0)
+				{
+					Debug.Log("hit a thing!");
+					foreach (Collider2D col in colliders)
+					{
+						PrinterBoss b = col.gameObject.GetComponent<PrinterBoss>();
+						if (b != null)
+						{
+							float damageMod = GameManager.Instance.DamageModifier(bulletColorIndex, b.GetCurrentColorIndex());
+
+							b.DealDamage(chargeDamageAmount, damageMod);
+							if (canSpawnParticle)
+							{
+								GameObject particle;
+
+								if (damageMod == 2.0f)
+									particle = Instantiate(GameManager.Instance.CritParticle, cursorObj.transform.position, gameObject.transform.rotation);
+								else if (damageMod == 0.5f)
+									particle = Instantiate(GameManager.Instance.ResistParticle, cursorObj.transform.position, gameObject.transform.rotation);
+								else
+									particle = Instantiate(GameManager.Instance.WhiffParticle, cursorObj.transform.position, gameObject.transform.rotation);
+
+								particle.GetComponent<SpriteRenderer>().material.color = GameManager.Instance.PlayerColors[bulletColorIndex];
+								canSpawnParticle = false;
+							}
+						}
+					}
+				}
+
 				_currChargeTime -= 0.01f;
 				if (_currChargeTime <= 0.0f)
 				{
@@ -74,6 +106,7 @@ public class Laser : Weapon
 			{
 				chargeAudio.Stop();
 				lr.enabled = false;
+				canSpawnParticle = true;
 			}
 		}
 	}
