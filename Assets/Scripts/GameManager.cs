@@ -258,9 +258,17 @@ public class GameManager : MonoBehaviour
 		}
 
 		if (playerData[0, 1] == -1)
-			playerData[0, 1] = Random.Range(0, 3);
+		{
+			playerData[0, 1] = playerData[0, 0];
+			while (playerData[0, 1] == playerData[0, 0])
+				playerData[0, 1] = Random.Range(0, 3);
+		}
 		else
-			playerData[1, 1] = Random.Range(0, 3);
+		{
+			playerData[1, 1] = playerData[1, 0];
+			while (playerData[1, 1] == playerData[1, 0])
+				playerData[1, 1] = Random.Range(0, 3);
+		}
 
 		Debug.Log("P1 weapons: " + playerData[0, 0].ToString() + " " + playerData[0, 1].ToString());
 		Debug.Log("P2 weapons: " + playerData[1, 0].ToString() + " " + playerData[1, 1].ToString());

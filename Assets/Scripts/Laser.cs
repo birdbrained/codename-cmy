@@ -67,7 +67,7 @@ public class Laser : Weapon
 				Collider2D[] colliders = Physics2D.OverlapCircleAll(cursorObj.transform.position, 1.0f);
 				if (colliders.Length > 0)
 				{
-					Debug.Log("hit a thing!");
+					//Debug.Log("hit a thing!");
 					foreach (Collider2D col in colliders)
 					{
 						PrinterBoss b = col.gameObject.GetComponent<PrinterBoss>();
