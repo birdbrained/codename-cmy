@@ -84,6 +84,7 @@ public class Cannon : Weapon
 		_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
 		_bulletComponent.FireSprite.material.color = bulletColor;
 		_bulletComponent.colorIndex = bulletColorIndex;
+		_bulletComponent.damageAmount = chargeDamageAmount;
 
 		//currDelay = fireDelay;
 		currChargeTime = 0.0f;

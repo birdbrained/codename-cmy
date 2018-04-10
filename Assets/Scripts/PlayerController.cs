@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
 	//components needed
 	private Rigidbody2D rb;
 	private Animator ani;
+	[SerializeField]
+	private SpriteRenderer bodySprite;
 
 	//basic player variables
 	[Range (1,2)]
@@ -16,8 +18,8 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private float speed;
 	[SerializeField]
-	private int maxHealth = 100;
-	private int currHealth;
+	private float maxHealth = 100;
+	private float currHealth;
 	private bool facingRight;
 	public float horizontalInvert = 1.0f;
 	public float verticalInvert = 1.0f;
@@ -87,6 +89,9 @@ public class PlayerController : MonoBehaviour
 	private float switchDuration;
 	private float t = 0.0f;
 	private bool isSwitchingColors = false;
+	private bool immortal = false;
+	[SerializeField]
+	private float immortalTime;
 
 	//sound effect manager
 	/*[SerializeField]
@@ -110,6 +115,14 @@ public class PlayerController : MonoBehaviour
 	[SerializeField]
 	private ControllerInfo controllerInfo;
 	private Dictionary<string, string> keyBindings = new Dictionary<string, string>();
+
+	public bool IsDead
+	{
+		get
+		{
+			return currHealth <= 0.0f;
+		}
+	}
 
 	/*void Awake()
 	{
@@ -504,6 +517,78 @@ public class PlayerController : MonoBehaviour
 		currentWeapons[1] = totalWeapons[secondary];
 		currentWeapon = currentWeapons[0];
 		AssignWeaponColorIndexes();
+	}
+
+	private IEnumerator IndicateImmortality()
+	{
+		while (immortal)
+		{
+			Debug.Log("immortal");
+			bodySprite.enabled = false;
+			yield return new WaitForSeconds(0.1f);
+			bodySprite.enabled = true;
+			yield return new WaitForSeconds(0.1f);
+		}
+	}
+
+	public IEnumerator TakeDamage(float damage, string dealer)
+	{
+		if (!immortal && damage != 0.0f)
+		{
+			currHealth -= damage;
+
+			if (!IsDead)
+			{
+				//not dead
+				ani.SetTrigger("damage");
+				immortal = true;
+				StartCoroutine(IndicateImmortality());
+				yield return new WaitForSeconds(immortalTime);
+				immortal = false;
+			}
+			else
+			{
+				//ya dead
+			}
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if (other.gameObject.tag == "enemy_bullet")
+		{
+			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
+			float damageMod;
+			if (playerNum == 1)
+			{
+				if (currentColorEquipped == 0)
+					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOnePrimaryColorIndex);
+				else
+					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOneSecondaryColorIndex);
+			}
+			else
+			{
+				if (currentColorEquipped == 0)
+					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoPrimaryColorIndex);
+				else
+					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoSecondaryColorIndex);
+			}
+
+			StartCoroutine(TakeDamage(_bullet.damageAmount * damageMod, other.gameObject.name));
+
+			GameObject parts;
+
+			if (damageMod == 2.0f)
+				parts = Instantiate(GameManager.Instance.CritParticle, other.gameObject.transform.position, transform.rotation);
+			else if (damageMod == 0.5f)
+				parts = Instantiate(GameManager.Instance.ResistParticle, other.gameObject.transform.position, transform.rotation);
+			else
+				parts = Instantiate(GameManager.Instance.WhiffParticle, other.gameObject.transform.position, transform.rotation);
+
+			parts.GetComponent<SpriteRenderer>().material.color = currentColors[currentColorEquipped];
+
+			Destroy(other.gameObject);
+		}
 	}
 
 	/*public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)

@@ -3,19 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PrinterBoss : MonoBehaviour 
+public class PrinterBoss : Boss
 {
-	private Animator ani;
+	//private Animator ani;
 
-	[SerializeField]
-	private float maxHealth;
-	private float currHealth;
+	//[SerializeField]
+	//private float maxHealth;
+	//private float currHealth;
 
-	[SerializeField]
-	private GameObject healthBar;
-	private RectTransform healthBarRect;
+	//[SerializeField]
+	//private GameObject healthBar;
+	//private RectTransform healthBarRect;
 
-	private int bossPrimaryColor;
+	/*private int bossPrimaryColor;
 	public int BossPrimaryColor
 	{
 		get
@@ -48,7 +48,7 @@ public class PrinterBoss : MonoBehaviour
 		}
 	}
 	private Color[] currColors = new Color[2];
-	private int[] currColorIndexes = new int[2];
+	private int[] currColorIndexes = new int[2];*/
 
 	[SerializeField]
 	private SpriteRenderer[] renderersToColor;
@@ -59,16 +59,43 @@ public class PrinterBoss : MonoBehaviour
 	private float t = 0.0f;
 	private bool isSwitchingColors = false;
 
+	[SerializeField]
+	private GameObject leftFireSpawn;
+	[SerializeField]
+	private GameObject rightFireSpawn;
+	[SerializeField]
+	private GameObject centerFireSpawn;
+
+	[SerializeField][Range (1, 4)]
+	private int numOfAttacks = 1;
+	[SerializeField]
+	private float attackDelayTime = 1.0f;
+	private float attackTimer = 0.0f;
+	private bool Attacking { get; set; }
+	[SerializeField]
+	private GameObject bulletObj;
+	[SerializeField]
+	private GameObject chargeBulletObj;
+	public float normalDamage;
+	public float chargeDamage;
+	[SerializeField]
+	private int numBulletsInSwipe = 5;
+	[SerializeField]
+	private int angleOffset = 5;
+
 	// Use this for initialization
-	void Start() 
+	public override void Start() 
 	{
-		ani = GetComponent<Animator>();
+		base.Start();
+
+		//ani = GetComponent<Animator>();
 		if (healthBar != null)
 		{
 			healthBarRect = healthBar.GetComponent<RectTransform>();
 		}
 
 		currHealth = maxHealth;
+		Attacking = false;
 	}
 	
 	// Update is called once per frame
@@ -111,6 +138,17 @@ public class PrinterBoss : MonoBehaviour
 			else
 			{
 				isSwitchingColors = false;
+			}
+		}
+
+		if (!Attacking)
+		{
+			attackTimer += Time.deltaTime;
+			if (attackTimer >= attackDelayTime)
+			{
+				attackTimer = 0.0f;
+				Attacking = true;
+				MyAnimator.SetTrigger("attack");
 			}
 		}
 	}
@@ -172,5 +210,52 @@ public class PrinterBoss : MonoBehaviour
 	public int GetCurrentColorIndex()
 	{
 		return currColorIndexes[currColorEquipped];
+	}
+
+	/**
+	 * @brief The printer's main attack
+	 * @param side 0 for left attack, non-zero for right attack
+	 */
+	public void Attack(int side)
+	{
+		for (int i = 0; i < numBulletsInSwipe; i++)
+		{
+			GameObject _bullet;
+			Bullet _bulletComponent;
+
+			if (side == 0)
+			{
+				_bullet = Instantiate(bulletObj, leftFireSpawn.transform.position, Quaternion.Euler(new Vector3(0, 0, -45 + Random.Range(-angleOffset, angleOffset))));
+				_bulletComponent = _bullet.GetComponent<Bullet>();
+				_bullet.tag = "enemy_bullet";
+				_bullet.transform.localScale *= 2;
+				_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
+				_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
+				_bulletComponent.damageAmount = normalDamage;
+			}
+			else
+			{
+				_bullet = Instantiate(bulletObj, rightFireSpawn.transform.position, Quaternion.Euler(new Vector3(0, 0, 45 + Random.Range(-angleOffset, angleOffset))));
+				_bulletComponent = _bullet.GetComponent<Bullet>();
+				_bullet.tag = "enemy_bullet";
+				_bullet.transform.localScale *= 2;
+				_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
+				_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
+				_bulletComponent.damageAmount = normalDamage;
+			}
+		}
+	}
+
+	public void ChargeAttack()
+	{
+		GameObject _bullet;
+		Bullet _bulletComponent;
+
+		_bullet = Instantiate(chargeBulletObj, centerFireSpawn.transform.position, transform.rotation);
+		_bulletComponent = _bullet.GetComponent<Bullet>();
+		_bullet.tag = "enemy_bullet";
+		_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
+		_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
+		_bulletComponent.damageAmount = chargeDamage;
 	}
 }
