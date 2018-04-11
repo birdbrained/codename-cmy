@@ -71,7 +71,6 @@ public class PrinterBoss : Boss
 	[SerializeField]
 	private float attackDelayTime = 1.0f;
 	private float attackTimer = 0.0f;
-	private bool Attacking { get; set; }
 	[SerializeField]
 	private GameObject bulletObj;
 	[SerializeField]
@@ -147,7 +146,7 @@ public class PrinterBoss : Boss
 			if (attackTimer >= attackDelayTime)
 			{
 				attackTimer = 0.0f;
-				Attacking = true;
+				//Attacking = true;
 				MyAnimator.SetTrigger("attack");
 			}
 		}
@@ -190,11 +189,11 @@ public class PrinterBoss : Boss
 			GameObject particle;
 
 			if (damageMod == 2.0f)
-				particle = Instantiate(GameManager.Instance.CritParticle, other.gameObject.transform.position, gameObject.transform.rotation);
+				particle = Instantiate(ParticleManager.Instance.CritParticle, other.gameObject.transform.position, gameObject.transform.rotation);
 			else if (damageMod == 0.5f)
-				particle = Instantiate(GameManager.Instance.ResistParticle, other.gameObject.transform.position, gameObject.transform.rotation);
+				particle = Instantiate(ParticleManager.Instance.ResistParticle, other.gameObject.transform.position, gameObject.transform.rotation);
 			else
-				particle = Instantiate(GameManager.Instance.WhiffParticle, other.gameObject.transform.position, gameObject.transform.rotation);
+				particle = Instantiate(ParticleManager.Instance.WhiffParticle, other.gameObject.transform.position, gameObject.transform.rotation);
 
 			particle.GetComponent<SpriteRenderer>().material.color = GameManager.Instance.PlayerColors[_bullet.colorIndex];
 
@@ -239,9 +238,10 @@ public class PrinterBoss : Boss
 				_bulletComponent = _bullet.GetComponent<Bullet>();
 				_bullet.tag = "enemy_bullet";
 				_bullet.transform.localScale *= 2;
-				_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
+				/*_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
 				_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
-				_bulletComponent.damageAmount = normalDamage;
+				_bulletComponent.damageAmount = normalDamage;*/
+                _bulletComponent.SetBulletAttributes(gameObject, currColors[currColorEquipped], currColorIndexes[currColorEquipped], normalDamage);
 			}
 		}
 	}
@@ -254,8 +254,9 @@ public class PrinterBoss : Boss
 		_bullet = Instantiate(chargeBulletObj, centerFireSpawn.transform.position, transform.rotation);
 		_bulletComponent = _bullet.GetComponent<Bullet>();
 		_bullet.tag = "enemy_bullet";
-		_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
+		/*_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
 		_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
-		_bulletComponent.damageAmount = chargeDamage;
-	}
+		_bulletComponent.damageAmount = chargeDamage;*/
+        _bulletComponent.SetBulletAttributes(gameObject, currColors[currColorEquipped], currColorIndexes[currColorEquipped], chargeDamage);
+    }
 }

@@ -49,9 +49,10 @@ public class Cannon : Weapon
 			cursorPos.y = cursorPos.y - objectPos.y;
 			float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg;
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
-			_bulletComponent.FireSprite.material.color = bulletColor;
+            /*_bulletComponent.FireSprite.material.color = bulletColor;
 			_bulletComponent.colorIndex = bulletColorIndex;
-			_bulletComponent.damageAmount = damageAmount;
+			_bulletComponent.damageAmount = damageAmount;*/
+            _bulletComponent.SetBulletAttributes(owner, bulletColor, bulletColorIndex, damageAmount);
 
 			currDelay = fireDelay;
 			if (fireAudio != null)
@@ -82,12 +83,13 @@ public class Cannon : Weapon
 		cursorPos.y = cursorPos.y - objectPos.y;
 		float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg;
 		_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
-		_bulletComponent.FireSprite.material.color = bulletColor;
+		/*_bulletComponent.FireSprite.material.color = bulletColor;
 		_bulletComponent.colorIndex = bulletColorIndex;
-		_bulletComponent.damageAmount = chargeDamageAmount;
+		_bulletComponent.damageAmount = chargeDamageAmount;*/
+        _bulletComponent.SetBulletAttributes(owner, bulletColor, bulletColorIndex, chargeDamageAmount);
 
-		//currDelay = fireDelay;
-		currChargeTime = 0.0f;
+        //currDelay = fireDelay;
+        currChargeTime = 0.0f;
 		if (chargeAudio != null)
 			chargeAudio.Play();
 	}

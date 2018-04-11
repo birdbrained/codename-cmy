@@ -54,9 +54,10 @@ public class Boss : MonoBehaviour
 			return currHealth <= 0.0f;
 		}
 	}
+    public bool Attacking { get; set; }
 
-	// Use this for initialization
-	public virtual void Start () 
+    // Use this for initialization
+    public virtual void Start () 
 	{
 		MyAnimator = GetComponent<Animator>();
 

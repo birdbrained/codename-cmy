@@ -176,9 +176,9 @@ public class GameManager : MonoBehaviour
 	[SerializeField][Range (0,100)]
 	private int switchMoveAndFirePercentage;
 
-	public GameObject CritParticle;
+	/*public GameObject CritParticle;
 	public GameObject ResistParticle;
-	public GameObject WhiffParticle;
+	public GameObject WhiffParticle;*/
 
 	// Use this for initialization
 	void Start () 

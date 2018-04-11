@@ -81,11 +81,11 @@ public class Laser : Weapon
 								GameObject particle;
 
 								if (damageMod == 2.0f)
-									particle = Instantiate(GameManager.Instance.CritParticle, cursorObj.transform.position, gameObject.transform.rotation);
+									particle = Instantiate(ParticleManager.Instance.CritParticle, cursorObj.transform.position, gameObject.transform.rotation);
 								else if (damageMod == 0.5f)
-									particle = Instantiate(GameManager.Instance.ResistParticle, cursorObj.transform.position, gameObject.transform.rotation);
+									particle = Instantiate(ParticleManager.Instance.ResistParticle, cursorObj.transform.position, gameObject.transform.rotation);
 								else
-									particle = Instantiate(GameManager.Instance.WhiffParticle, cursorObj.transform.position, gameObject.transform.rotation);
+									particle = Instantiate(ParticleManager.Instance.WhiffParticle, cursorObj.transform.position, gameObject.transform.rotation);
 
 								particle.GetComponent<SpriteRenderer>().material.color = GameManager.Instance.PlayerColors[bulletColorIndex];
 								canSpawnParticle = false;

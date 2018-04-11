@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
 			return fireSprite;
 		}
 	}
+    public GameObject owner;
 
 	// Use this for initialization
 	void Start () 
@@ -39,6 +40,14 @@ public class Bullet : MonoBehaviour
 	{
 		speed *= percent;
 	}
+
+    public void SetBulletAttributes(GameObject myOwner, Color myColor, int myColorIndex, float myDamageAmount)
+    {
+        owner = myOwner;
+        FireSprite.material.color = myColor;
+        colorIndex = myColorIndex;
+        damageAmount = myDamageAmount;
+    }
 
 	//void OnTrigger
 }

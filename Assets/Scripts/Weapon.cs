@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class Weapon : MonoBehaviour
 {
+    public GameObject owner;
+
 	[SerializeField]
 	protected GameObject bulletObj;
 	[SerializeField]

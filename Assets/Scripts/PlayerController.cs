@@ -116,6 +116,11 @@ public class PlayerController : MonoBehaviour
 	private ControllerInfo controllerInfo;
 	private Dictionary<string, string> keyBindings = new Dictionary<string, string>();
 
+    //particle systems
+    [SerializeField]
+    private ParticleSystem partsSwitchColor;
+    ParticleSystem.MainModule partsSwitchColorMM;
+
 	public bool IsDead
 	{
 		get
@@ -213,6 +218,9 @@ public class PlayerController : MonoBehaviour
 		keyBindings.Add("verticalAxis2", verticalAxis2);
 		keyBindings.Add("fireAxis", fireAxis);
 		keyBindings.Add("switchColorAxis", switchColorAxis);
+
+        if (partsSwitchColor != null)
+            partsSwitchColorMM = partsSwitchColor.main;
 	}
 	
 	// Update is called once per frame
@@ -238,6 +246,11 @@ public class PlayerController : MonoBehaviour
 		float ver = Input.GetAxis(verticalAxis);
 		float hor2 = Input.GetAxis(horizontalAxis2);
 		float ver2 = Input.GetAxis(verticalAxis2);
+
+        if (IsDead)
+        {
+            hor = ver = hor2 = ver2 = 0;
+        }
 
 		if (ani != null)
 		{
@@ -393,6 +406,16 @@ public class PlayerController : MonoBehaviour
 					currentColorEquipped = 1;
 				else
 					currentColorEquipped = 0;
+
+                if (partsSwitchColor != null)
+                {
+                    partsSwitchColorMM.startColor = new Color(
+                        currentColors[currentColorEquipped].r,
+                        currentColors[currentColorEquipped].g,
+                        currentColors[currentColorEquipped].b,
+                        0.5f);
+                    partsSwitchColor.Play();
+                }
 			}
 		}
 
@@ -548,46 +571,52 @@ public class PlayerController : MonoBehaviour
 			}
 			else
 			{
-				//ya dead
+                //ya dead
+                Instantiate(ParticleManager.Instance.DownParticle, transform.position, transform.rotation);
+                ani.SetBool("dead", true);
+                ani.SetTrigger("die");
 			}
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "enemy_bullet")
+		if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet")
 		{
 			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
-			float damageMod;
-			if (playerNum == 1)
-			{
-				if (currentColorEquipped == 0)
-					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOnePrimaryColorIndex);
-				else
-					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOneSecondaryColorIndex);
-			}
-			else
-			{
-				if (currentColorEquipped == 0)
-					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoPrimaryColorIndex);
-				else
-					damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoSecondaryColorIndex);
-			}
+            if (_bullet.owner != gameObject)
+            {
+                float damageMod;
+                if (playerNum == 1)
+                {
+                    if (currentColorEquipped == 0)
+                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOnePrimaryColorIndex);
+                    else
+                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOneSecondaryColorIndex);
+                }
+                else
+                {
+                    if (currentColorEquipped == 0)
+                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoPrimaryColorIndex);
+                    else
+                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoSecondaryColorIndex);
+                }
 
-			StartCoroutine(TakeDamage(_bullet.damageAmount * damageMod, other.gameObject.name));
+                StartCoroutine(TakeDamage(_bullet.damageAmount * damageMod, other.gameObject.name));
 
-			GameObject parts;
+                GameObject parts;
 
-			if (damageMod == 2.0f)
-				parts = Instantiate(GameManager.Instance.CritParticle, other.gameObject.transform.position, transform.rotation);
-			else if (damageMod == 0.5f)
-				parts = Instantiate(GameManager.Instance.ResistParticle, other.gameObject.transform.position, transform.rotation);
-			else
-				parts = Instantiate(GameManager.Instance.WhiffParticle, other.gameObject.transform.position, transform.rotation);
+                if (damageMod == 2.0f)
+                    parts = Instantiate(ParticleManager.Instance.CritParticle, other.gameObject.transform.position, transform.rotation);
+                else if (damageMod == 0.5f)
+                    parts = Instantiate(ParticleManager.Instance.ResistParticle, other.gameObject.transform.position, transform.rotation);
+                else
+                    parts = Instantiate(ParticleManager.Instance.WhiffParticle, other.gameObject.transform.position, transform.rotation);
 
-			parts.GetComponent<SpriteRenderer>().material.color = currentColors[currentColorEquipped];
+                parts.GetComponent<SpriteRenderer>().material.color = currentColors[currentColorEquipped];
 
-			Destroy(other.gameObject);
+                Destroy(other.gameObject);
+            }
 		}
 	}
 

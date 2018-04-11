@@ -51,10 +51,11 @@ public class Shotgun : Weapon
 				cursorPos.y = cursorPos.y - objectPos.y;
 				float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg + Random.Range(-10f, 11f);
 				_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 90.0f));
-				_bulletComponent.FireSprite.material.color = bulletColor;
+				/*_bulletComponent.FireSprite.material.color = bulletColor;
 				_bulletComponent.colorIndex = bulletColorIndex;
-				_bulletComponent.damageAmount = damageAmount;
-			}
+				_bulletComponent.damageAmount = damageAmount;*/
+                _bulletComponent.SetBulletAttributes(owner, bulletColor, bulletColorIndex, damageAmount);
+            }
 			if (fireAudio != null)
 				fireAudio.Play();
 			currDelay = fireDelay;
@@ -86,10 +87,11 @@ public class Shotgun : Weapon
 			cursorPos.y = cursorPos.y - objectPos.y;
 			float angle = Mathf.Atan2(cursorPos.y, cursorPos.x) * Mathf.Rad2Deg + Random.Range(-10f, 11f);
 			_bullet.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle + 22.5f * i));
-			_bulletComponent.FireSprite.material.color = bulletColor;
+			/*_bulletComponent.FireSprite.material.color = bulletColor;
 			_bulletComponent.colorIndex = bulletColorIndex;
-			_bulletComponent.damageAmount = chargeDamageAmount;
-		}
+			_bulletComponent.damageAmount = chargeDamageAmount;*/
+            _bulletComponent.SetBulletAttributes(owner, bulletColor, bulletColorIndex, chargeDamageAmount);
+        }
 		currChargeTime = 0.0f;
 		if (chargeAudio != null)
 			chargeAudio.Play();
