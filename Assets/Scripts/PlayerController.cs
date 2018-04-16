@@ -121,6 +121,10 @@ public class PlayerController : MonoBehaviour
     private ParticleSystem partsSwitchColor;
     ParticleSystem.MainModule partsSwitchColorMM;
 
+    //sound systems
+    [SerializeField]
+    private AudioSource[] audioSources;
+
 	public bool IsDead
 	{
 		get
@@ -288,48 +292,51 @@ public class PlayerController : MonoBehaviour
 
 		if (shieldObj != null)
 		{
-			//right click or left trigger to defend
-			if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert > 0.5)
-			{
-				shieldObj.SetActive(true);
-				isDefending = true;
-				currentWeapon.CurrChargeTime = 0.0f;
+            //right click or left trigger to defend
+            if (!IsDead)
+            {
+                if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert > 0.5)
+                {
+                    shieldObj.SetActive(true);
+                    isDefending = true;
+                    currentWeapon.CurrChargeTime = 0.0f;
 
-				//use the inputs from the right stick if you are using a controller
-				if (controllerConnected)
-				{
-					if (Input.GetAxis(horizontalAxis2) == 0 && Input.GetAxis(verticalAxis2) == 0)
-					{
-						shieldObj.SetActive(false);
-						isDefending = false;
-					}
-					else
-					{
-						shieldObj.transform.localPosition = new Vector3(
-							hor2 * horizontal2Invert * shieldDistance + transform.localPosition.x,
-							ver2 * vertical2Invert * shieldDistance + transform.localPosition.y, 0);
-					}
-				}
-				//otherwise need to figure the angle from how the cursor relates to the player
-				else
-				{
-					float curX = cursorObj.transform.localPosition.x - transform.localPosition.x;
-					float curY = cursorObj.transform.localPosition.y - transform.localPosition.y;
-					float c = Mathf.Sqrt(curX * curX + curY * curY);
-					//float c = curX * curX + curY * curY;
-					float shieldX = curX / c;
-					float shieldY = curY / c;
+                    //use the inputs from the right stick if you are using a controller
+                    if (controllerConnected)
+                    {
+                        if (Input.GetAxis(horizontalAxis2) == 0 && Input.GetAxis(verticalAxis2) == 0)
+                        {
+                            shieldObj.SetActive(false);
+                            isDefending = false;
+                        }
+                        else
+                        {
+                            shieldObj.transform.localPosition = new Vector3(
+                                hor2 * horizontal2Invert * shieldDistance + transform.localPosition.x,
+                                ver2 * vertical2Invert * shieldDistance + transform.localPosition.y, 0);
+                        }
+                    }
+                    //otherwise need to figure the angle from how the cursor relates to the player
+                    else
+                    {
+                        float curX = cursorObj.transform.localPosition.x - transform.localPosition.x;
+                        float curY = cursorObj.transform.localPosition.y - transform.localPosition.y;
+                        float c = Mathf.Sqrt(curX * curX + curY * curY);
+                        //float c = curX * curX + curY * curY;
+                        float shieldX = curX / c;
+                        float shieldY = curY / c;
 
-					shieldObj.transform.localPosition = new Vector3(
-						shieldX * shieldDistance + transform.localPosition.x * horizontal2Invert,
-						shieldY * shieldDistance + transform.localPosition.y * vertical2Invert, 0);
-				}
-			}
-			else
-			{
-				shieldObj.SetActive(false);
-				isDefending = false;
-			}
+                        shieldObj.transform.localPosition = new Vector3(
+                            shieldX * shieldDistance + transform.localPosition.x * horizontal2Invert,
+                            shieldY * shieldDistance + transform.localPosition.y * vertical2Invert, 0);
+                    }
+                }
+                else
+                {
+                    shieldObj.SetActive(false);
+                    isDefending = false;
+                }
+            }
 		}
 
 		ChangeDirection(hor);
@@ -345,13 +352,13 @@ public class PlayerController : MonoBehaviour
 			if ((!controllerConnected && Input.GetMouseButton(mouseFireButton)) || (controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert < 0))
 			{
 				//Fire();
-				if (!isDefending)
+				if (!isDefending && !IsDead)
 				{
 					FireWeapon();
 				}
 			}
 			//if ((!controllerConnected && Input.GetKeyDown(KeyCode.F)) || (controllerConnected && Input.GetAxis(switchColorAxis) == 1))
-			if (Input.GetAxis(switchColorAxis) == 1)
+			if (Input.GetAxis(switchColorAxis) == 1 && !IsDead)
 			{
 				isSwitchingColors = true;
 			}
@@ -586,39 +593,71 @@ public class PlayerController : MonoBehaviour
 			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
             if (_bullet.owner != gameObject)
             {
-                float damageMod;
-                if (playerNum == 1)
+                if (!IsDead)
                 {
-                    if (currentColorEquipped == 0)
-                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOnePrimaryColorIndex);
+                    float damageMod;
+                    if (playerNum == 1)
+                    {
+                        if (currentColorEquipped == 0)
+                            damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOnePrimaryColorIndex);
+                        else
+                            damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOneSecondaryColorIndex);
+                    }
                     else
-                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerOneSecondaryColorIndex);
+                    {
+                        if (currentColorEquipped == 0)
+                            damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoPrimaryColorIndex);
+                        else
+                            damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoSecondaryColorIndex);
+                    }
+
+                    StartCoroutine(TakeDamage(_bullet.damageAmount * damageMod, other.gameObject.name));
+
+                    GameObject parts;
+
+                    if (damageMod == 2.0f)
+                        parts = Instantiate(ParticleManager.Instance.CritParticle, other.gameObject.transform.position, transform.rotation);
+                    else if (damageMod == 0.5f)
+                        parts = Instantiate(ParticleManager.Instance.ResistParticle, other.gameObject.transform.position, transform.rotation);
+                    else
+                        parts = Instantiate(ParticleManager.Instance.WhiffParticle, other.gameObject.transform.position, transform.rotation);
+
+                    parts.GetComponent<SpriteRenderer>().material.color = currentColors[currentColorEquipped];
                 }
                 else
                 {
-                    if (currentColorEquipped == 0)
-                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoPrimaryColorIndex);
-                    else
-                        damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoSecondaryColorIndex);
+                    //play a cute squeeky noise
+                    ani.SetTrigger("squeak");
+                    StartCoroutine(ResetTriggerAfterTime("squeak", 0.1f));
                 }
-
-                StartCoroutine(TakeDamage(_bullet.damageAmount * damageMod, other.gameObject.name));
-
-                GameObject parts;
-
-                if (damageMod == 2.0f)
-                    parts = Instantiate(ParticleManager.Instance.CritParticle, other.gameObject.transform.position, transform.rotation);
-                else if (damageMod == 0.5f)
-                    parts = Instantiate(ParticleManager.Instance.ResistParticle, other.gameObject.transform.position, transform.rotation);
-                else
-                    parts = Instantiate(ParticleManager.Instance.WhiffParticle, other.gameObject.transform.position, transform.rotation);
-
-                parts.GetComponent<SpriteRenderer>().material.color = currentColors[currentColorEquipped];
 
                 Destroy(other.gameObject);
             }
 		}
 	}
+
+    private IEnumerator ResetTriggerAfterTime(string trigger, float time)
+    {
+        yield return new WaitForSeconds(time);
+        ani.ResetTrigger(trigger);
+    }
+
+    /**
+     * 0 -> rubber duck squeak
+     */ 
+    public void PlaySomeSound(int whichSound)
+    {
+        //aud.Play();
+        switch (whichSound)
+        {
+            case 0:
+                audioSources[whichSound].Play();
+                break;
+            default:
+                break;
+        }
+    }
+
 
 	/*public AudioSource AddAudio(AudioClip clip, bool loop, bool playAwake, float vol)
 	{
