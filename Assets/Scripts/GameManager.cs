@@ -30,8 +30,10 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	//the pool of colors to pick from
-	[SerializeField]
+    public ReviveMinigame rmInstance;
+
+    //the pool of colors to pick from
+    [SerializeField]
 	private Color[] playerColors;
 	public Color[] PlayerColors
 	{

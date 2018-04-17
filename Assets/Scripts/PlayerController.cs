@@ -132,6 +132,18 @@ public class PlayerController : MonoBehaviour
 			return currHealth <= 0.0f;
 		}
 	}
+    private bool isRevivingPlayer = false;
+    public bool IsRevivingPlayer
+    {
+        get
+        {
+            return isRevivingPlayer;
+        }
+        set
+        {
+            isRevivingPlayer = value;
+        }
+    }
 
 	/*void Awake()
 	{
@@ -251,7 +263,7 @@ public class PlayerController : MonoBehaviour
 		float hor2 = Input.GetAxis(horizontalAxis2);
 		float ver2 = Input.GetAxis(verticalAxis2);
 
-        if (IsDead)
+        if (IsDead || isRevivingPlayer)
         {
             hor = ver = hor2 = ver2 = 0;
         }
@@ -582,9 +594,44 @@ public class PlayerController : MonoBehaviour
                 Instantiate(ParticleManager.Instance.DownParticle, transform.position, transform.rotation);
                 ani.SetBool("dead", true);
                 ani.SetTrigger("die");
+
+                //GameManager.Instance.rmInstance.gameObject.SetActive(true);
+
+                if (GameManager.Instance.rmInstance.DeadPlayer == null)
+                {
+                    GameManager.Instance.rmInstance.DeadPlayer = this;
+                    GameManager.Instance.rmInstance.transform.position = new Vector3
+                    (
+                        transform.position.x,
+                        transform.position.y,
+                        GameManager.Instance.rmInstance.transform.position.z
+                    );
+                    if (playerNum == 1)
+                    {
+                        GameManager.Instance.rmInstance.SubmitAxis = "Submit_P2";
+                    }
+                    else
+                    {
+                        GameManager.Instance.rmInstance.SubmitAxis = "Submit";
+                    }
+                }
+                else if (GameManager.Instance.rmInstance.DeadPlayer != this)
+                {
+                    //both players are dead, game over!
+                }
 			}
 		}
 	}
+
+    public void RevivePlayer(float reviveAmount)
+    {
+        currHealth = reviveAmount;
+        ani.SetBool("dead", false);
+        //immortal = true;
+        //StartCoroutine(IndicateImmortality());
+        //yield return new WaitForSeconds(immortalTime);
+        //immortal = false;
+    }
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
@@ -635,6 +682,19 @@ public class PlayerController : MonoBehaviour
             }
 		}
 	}
+
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            PlayerController _otherPlayer = other.gameObject.GetComponent<PlayerController>();
+            if (_otherPlayer.IsDead)
+            {
+                GameManager.Instance.rmInstance.gameObject.SetActive(true);
+                isRevivingPlayer = true;
+            }
+        }
+    }
 
     private IEnumerator ResetTriggerAfterTime(string trigger, float time)
     {

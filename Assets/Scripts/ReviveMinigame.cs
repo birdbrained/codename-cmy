@@ -25,9 +25,26 @@ public class ReviveMinigame : MonoBehaviour
             deadPlayer = value;
         }
     }
+    private string submitAxis = "Submit";
+    public string SubmitAxis
+    {
+        get
+        {
+            return submitAxis;
+        }
+        set
+        {
+            submitAxis = value;
+        }
+    }
 
-	// Use this for initialization
-	void Awake ()
+    void Start()
+    {
+        //Instance = this;
+        gameObject.SetActive(false);
+    }
+
+    void OnEnable()
     {
         canRotate = true;
         canGiveHeals = true;
@@ -41,7 +58,7 @@ public class ReviveMinigame : MonoBehaviour
             spinner.transform.Rotate(new Vector3(0, 0, rotateSpeed) * Time.deltaTime, Space.World);
         }
 
-        if (Input.GetAxis("Submit") > 0 && canGiveHeals)
+        if (Input.GetAxis(submitAxis) > 0 && canGiveHeals)
         {
             canRotate = false;
             //Debug.Log("rotation is: " + spinner.transform.rotation.eulerAngles);
@@ -50,9 +67,18 @@ public class ReviveMinigame : MonoBehaviour
             Debug.Log("distance from 180 degrees is: " + offset + ", percent close: " + offsetPercentage);
 
             //heal the other player
-            float finalHeals = baseHealAmount * offsetPercentage * -1.0f;
-            deadPlayer.TakeDamage(finalHeals, "revive");
+            float finalHeals = baseHealAmount * offsetPercentage;
+            deadPlayer.RevivePlayer(finalHeals);
             canGiveHeals = false;
+            deadPlayer = null;
+
+            PlayerController[] players = FindObjectsOfType<PlayerController>();
+            foreach (PlayerController pc in players)
+            {
+                pc.IsRevivingPlayer = false;
+            }
+
+            gameObject.SetActive(false);
         }
 	}
 }
