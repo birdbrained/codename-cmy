@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour 
 {
@@ -29,6 +30,9 @@ public class GameManager : MonoBehaviour
 			return gsInstance;
 		}
 	}
+
+    [SerializeField]
+    private bool enableDebugCommands = false;
 
     public ReviveMinigame rmInstance;
 
@@ -205,12 +209,32 @@ public class GameManager : MonoBehaviour
 		}
 	}
 
-	/**
+    void Update()
+    {
+        if (enableDebugCommands)
+        {
+            if (Input.GetKeyDown(KeyCode.RightBracket))
+            {
+                PlayerController[] players = FindObjectsOfType<PlayerController>();
+                foreach (PlayerController pc in players)
+                {
+                    StartCoroutine(pc.TakeDamage(1000, "matt"));
+                }
+            }
+        }
+
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            SceneManager.LoadScene("title");
+        }
+    }
+
+    /**
 	 * @brief Determines if the color order should be swapped or not, 70% chance to swap
 	 * @param i The base number
 	 * @returns The number whether it is altered or not
 	 */
-	public int DetermineColorOrder(int i)
+    public int DetermineColorOrder(int i)
 	{
 		float x = Random.Range(0.0f, 1.0f);
 

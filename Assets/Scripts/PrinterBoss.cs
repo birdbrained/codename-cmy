@@ -180,7 +180,7 @@ public class PrinterBoss : Boss
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "player_bullet")
+		if (other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser")
 		{
 			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
 			float damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, currColorIndexes[currColorEquipped]);
@@ -197,7 +197,8 @@ public class PrinterBoss : Boss
 
 			particle.GetComponent<SpriteRenderer>().material.color = GameManager.Instance.PlayerColors[_bullet.colorIndex];
 
-			Destroy(other.gameObject);
+            if (other.gameObject.tag != "laser")
+			    Destroy(other.gameObject);
 		}
 	}
 

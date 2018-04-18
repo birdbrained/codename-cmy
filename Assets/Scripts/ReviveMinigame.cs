@@ -78,6 +78,8 @@ public class ReviveMinigame : MonoBehaviour
                 pc.IsRevivingPlayer = false;
             }
 
+            Instantiate(ParticleManager.Instance.UpParticle, transform.position, transform.rotation);
+
             gameObject.SetActive(false);
         }
 	}

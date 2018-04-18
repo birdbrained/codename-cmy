@@ -618,6 +618,9 @@ public class PlayerController : MonoBehaviour
                 else if (GameManager.Instance.rmInstance.DeadPlayer != this)
                 {
                     //both players are dead, game over!
+                    Debug.Log("Game over!");
+                    //ParticleManager.Instance.GameOverParticle.SetActive(true);
+                    Instantiate(ParticleManager.Instance.GameOverParticle, new Vector3(0, 9, 0), Quaternion.identity);
                 }
 			}
 		}
@@ -635,7 +638,7 @@ public class PlayerController : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet")
+		if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser")
 		{
 			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
             if (_bullet.owner != gameObject)
@@ -678,7 +681,8 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(ResetTriggerAfterTime("squeak", 0.1f));
                 }
 
-                Destroy(other.gameObject);
+                if (other.gameObject.tag != "laser")
+                    Destroy(other.gameObject);
             }
 		}
 	}

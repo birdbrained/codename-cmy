@@ -21,6 +21,8 @@ public class ParticleManager : MonoBehaviour
     public GameObject ResistParticle;
     public GameObject WhiffParticle;
     public GameObject DownParticle;
+    public GameObject UpParticle;
+    public GameObject GameOverParticle;
 
     // Use this for initialization
     void Start () {
