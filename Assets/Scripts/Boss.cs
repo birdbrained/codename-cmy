@@ -12,6 +12,10 @@ public class Boss : MonoBehaviour
 	protected GameObject healthBar;
 	protected RectTransform healthBarRect;
 
+    [SerializeField]
+    protected float timeBeforeSwitching;
+    protected float tSwitch;
+
 	protected int bossPrimaryColor;
 	public int BossPrimaryColor
 	{
@@ -85,4 +89,28 @@ public class Boss : MonoBehaviour
 		yield return null;
 	}
 
+    public void SwapColors()
+    {
+        if (currColorEquipped == 0)
+            currColorEquipped = 1;
+        else
+            currColorEquipped = 0;
+
+        //isSwitchingColors = true;
+    }
+
+    public void DealDamage(float damage, float damageMod)
+    {
+        currHealth -= (damage * damageMod);
+    }
+
+    public int GetCurrentColorIndex()
+    {
+        return currColorIndexes[currColorEquipped];
+    }
+
+    public void DestroySelf()
+    {
+        Destroy(gameObject);
+    }
 }

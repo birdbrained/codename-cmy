@@ -82,10 +82,15 @@ public class PrinterBoss : Boss
 	[SerializeField]
 	private int angleOffset = 5;
 
+    private BounceBetweenTwoPoints bouncy;
+    private bool canSetDieTrigger = true;
+
 	// Use this for initialization
 	public override void Start() 
 	{
 		base.Start();
+
+        bouncy = GetComponent<BounceBetweenTwoPoints>();
 
 		//ani = GetComponent<Animator>();
 		if (healthBar != null)
@@ -100,14 +105,24 @@ public class PrinterBoss : Boss
 	// Update is called once per frame
 	void Update() 
 	{
-		if (healthBar != null && healthBarRect != null)
+        if (healthBar != null && healthBarRect != null)
 		{
 			healthBarRect.sizeDelta = new Vector2(100.0f, ((float)currHealth / (float)maxHealth) * 145.0f);
 		}
 
 		if (currHealth <= 0.0f)
 		{
-			Destroy(gameObject);
+            //change to play death animation
+            //Destroy(gameObject);
+            if (canSetDieTrigger)
+            {
+                MyAnimator.SetTrigger("die");
+                if (bouncy != null)
+                {
+                    bouncy.CanBounce = false;
+                }
+                canSetDieTrigger = false;
+            }
 		}
 	}
 
@@ -115,6 +130,7 @@ public class PrinterBoss : Boss
 	{
 		if (isSwitchingColors)
 		{
+            attackTimer = 0.0f;
 			for (int i = 0; i < renderersToColor.Length; i++)
 			{
 				if (currColorEquipped == 0)
@@ -136,9 +152,22 @@ public class PrinterBoss : Boss
 			}
 			else
 			{
-				isSwitchingColors = false;
+                SwapColors();
+                isSwitchingColors = false;
+                t = 0.0f;
 			}
 		}
+
+        if (tSwitch < timeBeforeSwitching )
+        {
+            if (!Attacking)
+                tSwitch += Time.deltaTime;
+        }
+        else
+        {
+            isSwitchingColors = true;
+            tSwitch = 0.0f;
+        }
 
 		if (!Attacking)
 		{
@@ -168,16 +197,6 @@ public class PrinterBoss : Boss
 			imagesToColor[i].color = currColors[0];
 	}
 
-	public void SwapColors()
-	{
-		if (currColorEquipped == 0)
-			currColorEquipped = 1;
-		else
-			currColorEquipped = 0;
-
-		isSwitchingColors = true;
-	}
-
 	void OnTriggerEnter2D(Collider2D other)
 	{
 		if (other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser")
@@ -200,16 +219,6 @@ public class PrinterBoss : Boss
             if (other.gameObject.tag != "laser")
 			    Destroy(other.gameObject);
 		}
-	}
-
-	public void DealDamage(float damage, float damageMod)
-	{
-		currHealth -= (damage * damageMod);
-	}
-
-	public int GetCurrentColorIndex()
-	{
-		return currColorIndexes[currColorEquipped];
 	}
 
 	/**

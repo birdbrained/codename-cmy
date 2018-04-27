@@ -45,6 +45,13 @@ public class Transition : MonoBehaviour
 		nextLevel = lvl;
 	}
 
+    public void ExecuteNormalMode(string lvl)
+    {
+        GameManager.Instance.HardMode = 0;
+        GameManager.Instance.RandomizePlayerControls = false;
+        ExecuteTransition(lvl);
+    }
+
 	public void ExecuteRandomMode(string lvl)
 	{
 		GameManager.Instance.HardMode = 1;

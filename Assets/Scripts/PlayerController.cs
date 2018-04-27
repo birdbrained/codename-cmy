@@ -81,6 +81,8 @@ public class PlayerController : MonoBehaviour
 	//switching colors
 	[SerializeField]
 	private SpriteRenderer[] renderersToColor;
+    [SerializeField]
+    private SpriteRenderer[] baseSpriteRenderers;
 	[SerializeField]
 	private Image[] imagesToColor;
 	[SerializeField]
@@ -89,9 +91,15 @@ public class PlayerController : MonoBehaviour
 	private float switchDuration;
 	private float t = 0.0f;
 	private bool isSwitchingColors = false;
+
+    //immortal variables
 	private bool immortal = false;
 	[SerializeField]
 	private float immortalTime;
+    private float flashColorTime;
+    [SerializeField]
+    private float flashSpeed;
+    private bool increaseColor = true;
 
 	//sound effect manager
 	/*[SerializeField]
@@ -112,6 +120,7 @@ public class PlayerController : MonoBehaviour
 	public string switchColorAxis = "SwitchColor";
 	public int mouseFireButton = 0;
 	public int mouseDefendButton = 1;
+    public bool SwapFireAndDefend = false;
 	[SerializeField]
 	private ControllerInfo controllerInfo;
 	private Dictionary<string, string> keyBindings = new Dictionary<string, string>();
@@ -262,6 +271,9 @@ public class PlayerController : MonoBehaviour
 		float ver = Input.GetAxis(verticalAxis);
 		float hor2 = Input.GetAxis(horizontalAxis2);
 		float ver2 = Input.GetAxis(verticalAxis2);
+        float fire = Input.GetAxis(fireAxis);
+        if (SwapFireAndDefend)
+            fire *= -1.0f;
 
         if (IsDead || isRevivingPlayer)
         {
@@ -307,7 +319,7 @@ public class PlayerController : MonoBehaviour
             //right click or left trigger to defend
             if (!IsDead)
             {
-                if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert > 0.5)
+                if ((!controllerConnected && Input.GetMouseButton(mouseDefendButton)) || controllerConnected && fire > 0.5)
                 {
                     shieldObj.SetActive(true);
                     isDefending = true;
@@ -360,8 +372,8 @@ public class PlayerController : MonoBehaviour
 		//fire a projectile
 		if (!isSwitchingColors)
 		{
-			//firing, please change controller input future matt, fire should not be change color
-			if ((!controllerConnected && Input.GetMouseButton(mouseFireButton)) || (controllerConnected && Input.GetAxis(fireAxis) * fireAndDefendInvert < 0))
+			//firing, please change controller input future matt, fire should not be change color <--done!
+			if ((!controllerConnected && Input.GetMouseButton(mouseFireButton)) || (controllerConnected && fire < 0))
 			{
 				//Fire();
 				if (!isDefending && !IsDead)
@@ -438,7 +450,7 @@ public class PlayerController : MonoBehaviour
 			}
 		}
 
-		if ((!controllerConnected && Input.GetMouseButtonUp(0)) || (controllerConnected && Input.GetAxis(fireAxis) >= 0))
+		if ((!controllerConnected && Input.GetMouseButtonUp(0)) || (controllerConnected && fire >= 0))
 		{
 			//Debug.Log("mouse button up");
 			//unleash the charge move!
@@ -499,7 +511,7 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
-	void LoadDefaultControls()
+	public void LoadDefaultControls()
 	{
 		/*if (playerNum == 1)
 			controllerInfo = GameManager.Instance.Player1ControllerInfo;
@@ -565,12 +577,51 @@ public class PlayerController : MonoBehaviour
 	{
 		while (immortal)
 		{
-			Debug.Log("immortal");
-			bodySprite.enabled = false;
-			yield return new WaitForSeconds(0.1f);
-			bodySprite.enabled = true;
-			yield return new WaitForSeconds(0.1f);
+			//Debug.Log("immortal");
+			//bodySprite.enabled = false;
+			//yield return new WaitForSeconds(0.1f);
+			//bodySprite.enabled = true;
+			//yield return new WaitForSeconds(0.1f);
+            if (increaseColor)
+            {
+                flashColorTime += flashSpeed;
+                for (int i = 0; i < baseSpriteRenderers.Length; i++)
+                {
+                    baseSpriteRenderers[i].material.SetFloat("_Override", flashColorTime);
+                }
+                yield return new WaitForSeconds(0.1f);
+                if (flashColorTime >= 1.0f)
+                {
+                    flashColorTime = 1.0f;
+                    //yield return new WaitForSeconds(0.1f);
+                    increaseColor = false;
+                }
+            }
+            else
+            {
+                flashColorTime -= flashSpeed;
+                for (int i = 0; i < baseSpriteRenderers.Length; i++)
+                {
+                    baseSpriteRenderers[i].material.SetFloat("_Override", flashColorTime);
+                }
+                yield return new WaitForSeconds(0.1f);
+                if (flashColorTime <= 0.0f)
+                {
+                    flashColorTime = 0.0f;
+                    //yield return new WaitForSeconds(0.1f);
+                    increaseColor = true;
+                }
+            }
 		}
+        if (!immortal)
+        {
+            increaseColor = true;
+            flashColorTime = 0.0f;
+            for (int i = 0; i < baseSpriteRenderers.Length; i++)
+            {
+                baseSpriteRenderers[i].material.SetFloat("_Override", flashColorTime);
+            }
+        }
 	}
 
 	public IEnumerator TakeDamage(float damage, string dealer)

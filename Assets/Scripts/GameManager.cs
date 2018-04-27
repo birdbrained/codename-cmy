@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField]
     private bool enableDebugCommands = false;
+    [SerializeField]
+    private bool forceStandardColors = false;
 
     public ReviveMinigame rmInstance;
 
@@ -207,6 +209,12 @@ public class GameManager : MonoBehaviour
 			DetermineRandomPercents(hardMode);
 			RandomizeControls();
 		}
+        
+        if (!randomizePlayerControls && Player1 != null && Player2 != null)
+        {
+            Player1.LoadDefaultControls();
+            Player2.LoadDefaultControls();
+        }
 	}
 
     void Update()
@@ -295,6 +303,14 @@ public class GameManager : MonoBehaviour
 			while (playerData[1, 1] == playerData[1, 0])
 				playerData[1, 1] = Random.Range(0, 3);
 		}
+
+        if (forceStandardColors)
+        {
+            playerData[0, 0] = 0;
+            playerData[0, 1] = 2;
+            playerData[1, 0] = 1;
+            playerData[1, 1] = 0;
+        }
 
 		Debug.Log("P1 weapons: " + playerData[0, 0].ToString() + " " + playerData[0, 1].ToString());
 		Debug.Log("P2 weapons: " + playerData[1, 0].ToString() + " " + playerData[1, 1].ToString());
@@ -422,8 +438,10 @@ public class GameManager : MonoBehaviour
 		rando = Random.Range(1, 101);
 		if (rando <= swapFireAndDefendPercentage)
 		{
-			Player1.fireAndDefendInvert *= -1.0f;
-			Player2.fireAndDefendInvert *= -1.0f;
+            //Player1.fireAndDefendInvert *= -1.0f;
+            //Player2.fireAndDefendInvert *= -1.0f;
+            //Player1.SwapFireAndDefend = !Player1.SwapFireAndDefend;
+            //Player2.SwapFireAndDefend = !Player2.SwapFireAndDefend;
 		}
 
 		rando = Random.Range(1, 101);
