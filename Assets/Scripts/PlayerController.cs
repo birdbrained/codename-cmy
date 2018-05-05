@@ -71,6 +71,13 @@ public class PlayerController : MonoBehaviour
 	private Color[] currentColors = new Color[2];
 	private bool primaryColorEquipped = true;
 	private short currentColorEquipped = 0;
+    public short CurrentColorEqupped
+    {
+        get
+        {
+            return currentColorEquipped;
+        }
+    }
 
 	//weapon details
 	[SerializeField]
@@ -677,6 +684,11 @@ public class PlayerController : MonoBehaviour
 		}
 	}
 
+    public void TakeDamageWrapper(float damage, float damageMod, string dealer)
+    {
+        StartCoroutine(TakeDamage(damage * damageMod, dealer));
+    }
+
     public void RevivePlayer(float reviveAmount)
     {
         currHealth = reviveAmount;
@@ -710,6 +722,17 @@ public class PlayerController : MonoBehaviour
                             damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoPrimaryColorIndex);
                         else
                             damageMod = GameManager.Instance.DamageModifier(_bullet.colorIndex, GameManager.Instance.playerTwoSecondaryColorIndex);
+                    }
+
+                    //explosion-friendly-fire attack
+                    //Debug.Log("tag: (" + other.gameObject.tag + ") immortal: (" + immortal.ToString() + ") damageMod: (" + damageMod.ToString() + ")");
+                    if ((other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser") && !immortal && damageMod > 1.0f)
+                    {
+                        Debug.Log("Same player hurts! A Splode!");
+                        GameObject explosionObj = Instantiate(GameManager.Instance.ExplosionObj, transform.position, transform.rotation);
+                        DamageInRadius explosion = explosionObj.GetComponent<DamageInRadius>();
+                        explosion.SetupExplosion(gameObject, -1.0f, -1.0f, GetCurrentColorIndex(), currentColors[currentColorEquipped]);
+                        explosion.SetupExplosionColor(GetCurrentColor());
                     }
 
                     StartCoroutine(TakeDamage(_bullet.damageAmount * damageMod, other.gameObject.name));
@@ -755,6 +778,33 @@ public class PlayerController : MonoBehaviour
     {
         yield return new WaitForSeconds(time);
         ani.ResetTrigger(trigger);
+    }
+
+    public int GetCurrentColorIndex()
+    {
+        int num;
+
+        if (playerNum == 1)
+        {
+            if (currentColorEquipped == 0)
+                num = GameManager.Instance.playerOnePrimaryColorIndex;
+            else
+                num = GameManager.Instance.playerOneSecondaryColorIndex;
+        }
+        else
+        {
+            if (currentColorEquipped == 0)
+                num = GameManager.Instance.playerTwoPrimaryColorIndex;
+            else
+                num = GameManager.Instance.playerTwoSecondaryColorIndex;
+        }
+
+        return num;
+    }
+
+    public Color GetCurrentColor()
+    {
+        return currentColors[currentColorEquipped];
     }
 
     /**

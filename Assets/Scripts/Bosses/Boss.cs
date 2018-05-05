@@ -50,6 +50,13 @@ public class Boss : MonoBehaviour
 	}
 	protected Color[] currColors = new Color[2];
 	protected int[] currColorIndexes = new int[2];
+    public int[] CurrColorIndexes
+    {
+        get
+        {
+            return currColorIndexes;
+        }
+    }
 	public Animator MyAnimator { get; private set; }
 	public bool IsDead
 	{
@@ -59,6 +66,10 @@ public class Boss : MonoBehaviour
 		}
 	}
     public bool Attacking { get; set; }
+    protected bool canSetDieTrigger = true;
+    [SerializeField]
+    protected float deathTimer;
+    protected bool canTransitionToSecondDeathPhase = true;
 
     // Use this for initialization
     public virtual void Start () 
@@ -69,9 +80,13 @@ public class Boss : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		
-	}
+	public virtual void Update ()
+    {
+        if (healthBar != null && healthBarRect != null)
+        {
+            healthBarRect.sizeDelta = new Vector2(100.0f, ((float)currHealth / (float)maxHealth) * 145.0f);
+        }
+    }
 
 	public IEnumerator TakeDamage(float damage, string dealer)
 	{
@@ -99,7 +114,18 @@ public class Boss : MonoBehaviour
         //isSwitchingColors = true;
     }
 
-    public void DealDamage(float damage, float damageMod)
+    public virtual void SetBossColors(int i1, Color c1, int i2, Color c2)
+    {
+        bossPrimaryColor = i1;
+        bossSecondaryColor = i2;
+        currColorIndexes[0] = i1;
+        currColorIndexes[1] = i2;
+        currColors[0] = c1;
+        currColors[1] = c2;
+        currColorEquipped = 0;
+    }
+
+    public virtual void DealDamage(float damage, float damageMod)
     {
         currHealth -= (damage * damageMod);
     }
@@ -112,5 +138,10 @@ public class Boss : MonoBehaviour
     public void DestroySelf()
     {
         Destroy(gameObject);
+    }
+
+    public Color GetCurrentColor()
+    {
+        return currColors[currColorEquipped];
     }
 }

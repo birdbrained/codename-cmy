@@ -83,7 +83,6 @@ public class PrinterBoss : Boss
 	private int angleOffset = 5;
 
     private BounceBetweenTwoPoints bouncy;
-    private bool canSetDieTrigger = true;
 
 	// Use this for initialization
 	public override void Start() 
@@ -103,12 +102,13 @@ public class PrinterBoss : Boss
 	}
 	
 	// Update is called once per frame
-	void Update() 
+	public override void Update() 
 	{
-        if (healthBar != null && healthBarRect != null)
-		{
-			healthBarRect.sizeDelta = new Vector2(100.0f, ((float)currHealth / (float)maxHealth) * 145.0f);
-		}
+        //if (healthBar != null && healthBarRect != null)
+        //{
+        //	healthBarRect.sizeDelta = new Vector2(100.0f, ((float)currHealth / (float)maxHealth) * 145.0f);
+        //}
+        base.Update();
 
 		if (currHealth <= 0.0f)
 		{
@@ -181,15 +181,16 @@ public class PrinterBoss : Boss
 		}
 	}
 
-	public void SetBossColors(int i1, Color c1, int i2, Color c2)
+	public override void SetBossColors(int i1, Color c1, int i2, Color c2)
 	{
-		bossPrimaryColor = i1;
+        /*bossPrimaryColor = i1;
 		bossSecondaryColor = i2;
 		currColorIndexes[0] = i1;
 		currColorIndexes[1] = i2;
 		currColors[0] = c1;
 		currColors[1] = c2;
-		currColorEquipped = 0;
+		currColorEquipped = 0;*/
+        base.SetBossColors(i1, c1, i2, c2);
 
 		for (int i = 0; i < renderersToColor.Length; i++)
 			renderersToColor[i].material.color = currColors[0];
@@ -227,6 +228,9 @@ public class PrinterBoss : Boss
 	 */
 	public void Attack(int side)
 	{
+        if (IsDead)
+            return;
+
 		for (int i = 0; i < numBulletsInSwipe; i++)
 		{
 			GameObject _bullet;
@@ -238,10 +242,11 @@ public class PrinterBoss : Boss
 				_bulletComponent = _bullet.GetComponent<Bullet>();
 				_bullet.tag = "enemy_bullet";
 				_bullet.transform.localScale *= 2;
-				_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
-				_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
-				_bulletComponent.damageAmount = normalDamage;
-			}
+				//_bulletComponent.FireSprite.material.color = currColors[currColorEquipped];
+				//_bulletComponent.colorIndex = currColorIndexes[currColorEquipped];
+				//_bulletComponent.damageAmount = normalDamage;
+                _bulletComponent.SetBulletAttributes(gameObject, currColors[currColorEquipped], currColorIndexes[currColorEquipped], normalDamage);
+            }
 			else
 			{
 				_bullet = Instantiate(bulletObj, rightFireSpawn.transform.position, Quaternion.Euler(new Vector3(0, 0, 45 + Random.Range(-angleOffset, angleOffset))));

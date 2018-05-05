@@ -88,8 +88,8 @@ public class GameManager : MonoBehaviour
 		}
 	}
 	[SerializeField]
-	private PrinterBoss boss; //might have to change this to be obj-orn later
-	public PrinterBoss Boss
+	private Boss boss; //might have to change this to be obj-orn later
+	public Boss Boss
 	{
 		get
 		{
@@ -100,6 +100,16 @@ public class GameManager : MonoBehaviour
 			boss = value;
 		}
 	}
+
+    [SerializeField]
+    private GameObject explosionObj;
+    public GameObject ExplosionObj
+    {
+        get
+        {
+            return explosionObj;
+        }
+    }
 
 	//if true, make the color indexes correspond to the weapon indexes
 	//if false, randomize the color associated with each weapon
