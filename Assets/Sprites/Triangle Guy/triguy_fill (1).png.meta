@@ -1,21 +1,22 @@
 fileFormatVersion: 2
-guid: fb80b591aa70f09478de511c8b7a6164
-timeCreated: 1525489174
+guid: bb5b7db2adcb00e4da85ba1fc7abfb3b
+timeCreated: 1525551161
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: triguy_fill_0
-    21300002: triguy_fill_1
-    21300004: triguy_fill_2
-    21300006: triguy_fill_3
-    21300008: triguy_fill_4
-    21300010: triguy_fill_5
-    21300012: triguy_fill_6
-    21300014: triguy_fill_7
-    21300016: triguy_fill_8
-    21300018: triguy_fill_9
-    21300020: triguy_fill_10
-    21300022: triguy_fill_11
+    21300000: triguy_fill (1)_0
+    21300002: triguy_fill (1)_1
+    21300004: triguy_fill (1)_2
+    21300006: triguy_fill (1)_3
+    21300008: triguy_fill (1)_4
+    21300010: triguy_fill (1)_5
+    21300012: triguy_fill (1)_6
+    21300014: triguy_fill (1)_7
+    21300016: triguy_fill (1)_8
+    21300018: triguy_fill (1)_9
+    21300020: triguy_fill (1)_10
+    21300022: triguy_fill (1)_11
+    21300024: triguy_fill (1)_12
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -98,12 +99,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: triguy_fill_0
+      name: triguy_fill (1)_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -111,12 +112,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_1
+      name: triguy_fill (1)_1
       rect:
         serializedVersion: 2
-        x: 366
+        x: 406
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -124,12 +125,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_2
+      name: triguy_fill (1)_2
       rect:
         serializedVersion: 2
-        x: 732
+        x: 812
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -137,12 +138,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_3
+      name: triguy_fill (1)_3
       rect:
         serializedVersion: 2
-        x: 1098
+        x: 1218
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -150,12 +151,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_4
+      name: triguy_fill (1)_4
       rect:
         serializedVersion: 2
-        x: 1464
+        x: 1624
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -163,12 +164,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_5
+      name: triguy_fill (1)_5
       rect:
         serializedVersion: 2
-        x: 1830
+        x: 2030
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -176,12 +177,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_6
+      name: triguy_fill (1)_6
       rect:
         serializedVersion: 2
-        x: 2196
+        x: 2436
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -189,12 +190,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_7
+      name: triguy_fill (1)_7
       rect:
         serializedVersion: 2
-        x: 2562
+        x: 2842
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -202,12 +203,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_8
+      name: triguy_fill (1)_8
       rect:
         serializedVersion: 2
-        x: 2928
+        x: 3248
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -215,12 +216,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_9
+      name: triguy_fill (1)_9
       rect:
         serializedVersion: 2
-        x: 3294
+        x: 3654
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -228,12 +229,12 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_10
+      name: triguy_fill (1)_10
       rect:
         serializedVersion: 2
-        x: 3660
+        x: 4060
         y: 0
-        width: 366.33334
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -241,12 +242,25 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill_11
+      name: triguy_fill (1)_11
       rect:
         serializedVersion: 2
-        x: 4026
+        x: 4466
         y: 0
-        width: 366.33334
+        width: 406.15384
+        height: 442
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_fill (1)_12
+      rect:
+        serializedVersion: 2
+        x: 4872
+        y: 0
+        width: 406.15384
         height: 442
       alignment: 0
       pivot: {x: 0, y: 0}

@@ -66,7 +66,7 @@ public class TelephoneBoss : Boss
         //}
         base.Update();
 
-        if (currHealth <= 0.0f)
+        if (currHealth <= 0.0f && canSetDieTrigger)
         {
             //change to play death animation
             //Destroy(gameObject);
