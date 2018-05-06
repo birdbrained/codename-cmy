@@ -527,4 +527,19 @@ public class GameManager : MonoBehaviour
 	{
 		
 	}
+
+    public void DestroyAllBulletsAndSpawns()
+    {
+        Bullet[] bullets = FindObjectsOfType<Bullet>();
+        foreach (Bullet b in bullets)
+        {
+            Destroy(b.gameObject);
+        }
+
+        StaplerMinion[] minions = FindObjectsOfType<StaplerMinion>();
+        foreach (StaplerMinion s in minions)
+        {
+            Destroy(s.gameObject);
+        }
+    }
 }

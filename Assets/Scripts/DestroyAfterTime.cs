@@ -6,10 +6,12 @@ public class DestroyAfterTime : MonoBehaviour
 {
 	[SerializeField]
 	private float timeBeforeDestroy;
+    private ParticleSystem ps;
 
 	// Use this for initialization
 	void Start () 
 	{
+        ps = GetComponent<ParticleSystem>();
 		StartCoroutine(WaitBeforeDestroying());
 	}
 	
@@ -22,6 +24,8 @@ public class DestroyAfterTime : MonoBehaviour
 	private IEnumerator WaitBeforeDestroying()
 	{
 		yield return new WaitForSeconds(timeBeforeDestroy);
+        if (ps != null)
+            ps.Stop();
 		Destroy(gameObject);
 	}
 }

@@ -23,6 +23,7 @@ public class ParticleManager : MonoBehaviour
     public GameObject DownParticle;
     public GameObject UpParticle;
     public GameObject GameOverParticle;
+    public GameObject DyingParticles;
 
     // Use this for initialization
     void Start () {

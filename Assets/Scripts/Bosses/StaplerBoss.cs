@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TelephoneBoss : Boss
+public class StaplerBoss : Boss
 {
     [SerializeField]
     private SpriteRenderer[] renderersToColor;
@@ -15,15 +15,7 @@ public class TelephoneBoss : Boss
     private bool isSwitchingColors = false;
 
     [SerializeField]
-    private Transform[] bulletSpawnPositions;
-    [SerializeField]
-    private LineRenderer cordLine;
-    [SerializeField]
-    private Transform cordAttachPoint;
-
-    [SerializeField]
-    [Range(1, 4)]
-    private int numOfAttacks = 1;
+    private Transform bulletSpawnPoint;
     [SerializeField]
     private float attackDelayTime = 1.0f;
     private float attackTimer = 0.0f;
@@ -31,20 +23,21 @@ public class TelephoneBoss : Boss
     private GameObject bulletObj;
     public float normalDamage;
     [SerializeField]
-    private int numBulletsInRing = 8;
-
-    private int[] xSpawnPos = { -15, 15 };
-    private float ySpawnMax = 5.0f;
+    private int numBulletsInAttack = 1;
     [SerializeField]
-    private float maxSpeed;
-    private float currSpeed;
-    private float flipMovement;
+    [Range(0, 100)]
+    private int percentSpawnMinion;
+    [SerializeField]
+    private GameObject minionObj;
+
+    private BounceBetweenTwoPoints bouncy;
 
     // Use this for initialization
     public override void Start()
     {
         base.Start();
 
+        bouncy = GetComponent<BounceBetweenTwoPoints>();
         if (healthBar != null)
         {
             healthBarRect = healthBar.GetComponent<RectTransform>();
@@ -52,31 +45,29 @@ public class TelephoneBoss : Boss
 
         currHealth = maxHealth;
         Attacking = false;
-
-        currSpeed = maxSpeed;
-        DecideCycleStart();
     }
 	
 	// Update is called once per frame
 	public override void Update()
     {
-        //if (healthBar != null && healthBarRect != null)
-        //{
-        //healthBarRect.sizeDelta = new Vector2(100.0f, ((float)currHealth / (float)maxHealth) * 145.0f);
-        //}
         base.Update();
 
-        if (currHealth <= 0.0f && canSetDieTrigger)
+        if (currHealth <= 0.0f)
         {
             //change to play death animation
             //Destroy(gameObject);
-            MyAnimator.SetTrigger("die");
-            Instantiate(ParticleManager.Instance.DyingParticles, transform.position, Quaternion.identity);
-            GameManager.Instance.DestroyAllBulletsAndSpawns();
-            canSetDieTrigger = false;
+            if (canSetDieTrigger)
+            {
+                MyAnimator.SetTrigger("die");
+                Instantiate(ParticleManager.Instance.DyingParticles, transform.position, Quaternion.identity);
+                if (bouncy != null)
+                {
+                    bouncy.CanBounce = false;
+                }
+                canSetDieTrigger = false;
+                GameManager.Instance.DestroyAllBulletsAndSpawns();
+            }
         }
-
-        transform.Translate(Vector3.right * Time.deltaTime * currSpeed * flipMovement, Space.World);
     }
 
     void FixedUpdate()
@@ -133,19 +124,8 @@ public class TelephoneBoss : Boss
             }
         }
 
-        if (currSpeed > -maxSpeed)
-        {
-            currSpeed -= Time.deltaTime * 3.0f;
-        }
-        else
-        {
-            currSpeed = maxSpeed;
-            DecideCycleStart();
-        }
-
         if (IsDead)
         {
-            currSpeed = 0.0f;
             if (deathTimer > 0.0f)
             {
                 deathTimer -= Time.deltaTime;
@@ -155,10 +135,6 @@ public class TelephoneBoss : Boss
                 canTransitionToSecondDeathPhase = false;
                 MyAnimator.SetTrigger("die2");
             }
-        }
-        if (cordLine != null)
-        {
-            cordLine.SetPosition(1, cordAttachPoint.position);
         }
     }
 
@@ -196,49 +172,28 @@ public class TelephoneBoss : Boss
         }
     }
 
-    public void Attack(int side)
+    public void Attack()
     {
-        if (IsDead)
-            return;
-
-        if (side < 0)
-            side = 0;
-        if (side > 1)
-            side = 1;
-
-        for (int i = 0; i < numBulletsInRing; i++)
+        int rando = Random.Range(0, 101);
+        if (rando < percentSpawnMinion)
         {
-            GameObject _bullet;
-            Bullet _bulletComponent;
+            SpawnMinion();
+            return;
+        }
 
-            _bullet = Instantiate(bulletObj, bulletSpawnPositions[side].position, Quaternion.Euler(new Vector3(0, 0, Random.Range(0.0f, 360.0f))));
-            _bulletComponent = _bullet.GetComponent<Bullet>();
+        for (int i = 0; i < numBulletsInAttack; i++)
+        {
+            GameObject _bullet = Instantiate(bulletObj, bulletSpawnPoint.position, Quaternion.Euler(new Vector3(0, 0, 90.0f)));
+            Bullet _bulletComponent = _bullet.GetComponent<Bullet>();
             _bullet.tag = "enemy_bullet";
-            _bullet.transform.localScale *= 1.5f;
+            _bullet.transform.localScale *= 3;
             _bulletComponent.SetBulletAttributes(gameObject, currColors[currColorEquipped], currColorIndexes[currColorEquipped], normalDamage);
         }
     }
 
-    void DecideCycleStart()
+    public void SpawnMinion()
     {
-        int randomRange = Random.Range(0, xSpawnPos.Length);
-        float randomY = Random.Range(-ySpawnMax, ySpawnMax);
-        if (randomRange > 0)
-        {
-            Vector3 scale = new Vector3(-1, 1, 1);
-            transform.localScale = scale;
-            flipMovement = -1.0f;
-        }
-        else
-        {
-            Vector3 scale = new Vector3(1, 1, 1);
-            transform.localScale = scale;
-            flipMovement = 1.0f;
-        }
-        gameObject.transform.position = new Vector3(xSpawnPos[randomRange], randomY, 0);
-        if (cordLine != null)
-        {
-            cordLine.SetPosition(0, new Vector3(xSpawnPos[randomRange], randomY, 0));
-        }
+        GameObject obj = Instantiate(minionObj, bulletSpawnPoint.position, Quaternion.identity);
+        obj.GetComponent<StaplerMinion>().SetupMinion(currColors[currColorEquipped], currColorIndexes[currColorEquipped], -1.0f);
     }
 }

@@ -91,6 +91,7 @@ public class BirdBoss : Boss
             if (canSetDieTrigger)
             {
                 MyAnimator.SetTrigger("die");
+                Instantiate(ParticleManager.Instance.DyingParticles, transform.position, Quaternion.identity);
                 if (bouncy != null)
                 {
                     bouncy.CanBounce = false;
@@ -99,6 +100,7 @@ public class BirdBoss : Boss
                 {
                     r.canRotate = false;
                 }
+                GameManager.Instance.DestroyAllBulletsAndSpawns();
                 canSetDieTrigger = false;
             }
             /*if (canSwapToDeathMaterial)

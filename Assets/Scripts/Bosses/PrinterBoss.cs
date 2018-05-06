@@ -117,6 +117,8 @@ public class PrinterBoss : Boss
             if (canSetDieTrigger)
             {
                 MyAnimator.SetTrigger("die");
+                Instantiate(ParticleManager.Instance.DyingParticles, transform.position, Quaternion.identity);
+                GameManager.Instance.DestroyAllBulletsAndSpawns();
                 if (bouncy != null)
                 {
                     bouncy.CanBounce = false;
