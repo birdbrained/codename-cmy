@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MMButtons : MonoBehaviour 
 {
+    private EventSystem es;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+    {
+        es = EventSystem.current;
 	}
 	
 	// Update is called once per frame
@@ -29,4 +32,9 @@ public class MMButtons : MonoBehaviour
 	{
 		obj.SetActive(false);
 	}
+
+    public void ChangeSelectedOption(GameObject obj)
+    {
+        es.SetSelectedGameObject(obj);
+    }
 }
