@@ -68,7 +68,8 @@ public class Bullet : MonoBehaviour
     public void SetBulletAttributes(GameObject myOwner, Color myColor, int myColorIndex, float myDamageAmount)
     {
         owner = myOwner;
-        FireSprite.material.color = myColor;
+        if (FireSprite != null)
+            FireSprite.material.color = myColor;
         colorIndex = myColorIndex;
         damageAmount = myDamageAmount;
     }

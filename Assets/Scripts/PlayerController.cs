@@ -701,10 +701,10 @@ public class PlayerController : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser")
+		if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser" || other.gameObject.tag == "enemy_laser")
 		{
 			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
-            if (_bullet.owner != gameObject)
+            if (_bullet != null && _bullet.owner != gameObject)
             {
                 if (!IsDead)
                 {
@@ -740,11 +740,11 @@ public class PlayerController : MonoBehaviour
                     GameObject parts;
 
                     if (damageMod == 2.0f)
-                        parts = Instantiate(ParticleManager.Instance.CritParticle, other.gameObject.transform.position, transform.rotation);
+                        parts = Instantiate(ParticleManager.Instance.CritParticle, new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z), transform.rotation);
                     else if (damageMod == 0.5f)
-                        parts = Instantiate(ParticleManager.Instance.ResistParticle, other.gameObject.transform.position, transform.rotation);
+                        parts = Instantiate(ParticleManager.Instance.ResistParticle, new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z), transform.rotation);
                     else
-                        parts = Instantiate(ParticleManager.Instance.WhiffParticle, other.gameObject.transform.position, transform.rotation);
+                        parts = Instantiate(ParticleManager.Instance.WhiffParticle, new Vector3(transform.position.x, transform.position.y + 0.3f, transform.position.z), transform.rotation);
 
                     parts.GetComponent<SpriteRenderer>().material.color = currentColors[currentColorEquipped];
                 }
@@ -755,7 +755,7 @@ public class PlayerController : MonoBehaviour
                     StartCoroutine(ResetTriggerAfterTime("squeak", 0.1f));
                 }
 
-                if (other.gameObject.tag != "laser")
+                if (!(other.gameObject.tag == "laser" || other.gameObject.tag == "enemy_laser"))
                     Destroy(other.gameObject);
             }
 		}

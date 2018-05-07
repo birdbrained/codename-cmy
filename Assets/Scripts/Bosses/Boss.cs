@@ -72,7 +72,7 @@ public class Boss : MonoBehaviour
     protected bool canTransitionToSecondDeathPhase = true;
 
     // Use this for initialization
-    public virtual void Start () 
+    public virtual void Start() 
 	{
 		MyAnimator = GetComponent<Animator>();
 
@@ -80,7 +80,7 @@ public class Boss : MonoBehaviour
 	}
 	
 	// Update is called once per frame
-	public virtual void Update ()
+	public virtual void Update()
     {
         if (healthBar != null && healthBarRect != null)
         {
