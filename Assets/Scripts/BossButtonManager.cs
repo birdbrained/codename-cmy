@@ -24,20 +24,23 @@ public class BossButtonManager : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
     {
-        currButton = es.currentSelectedGameObject.GetComponent<BossSelectButton>();
-        if (currButton != null)
+        if (es != null && es.currentSelectedGameObject != null)
         {
-            if (nameText != null)
+            currButton = es.currentSelectedGameObject.GetComponent<BossSelectButton>();
+            if (currButton != null)
             {
-                nameText.text = currButton.name;
-            }
-            if (descText != null)
-            {
-                descText.text = currButton.desc;
-            }
-            if (image != null)
-            {
-                image.sprite = currButton.sprite;
+                if (nameText != null)
+                {
+                    nameText.text = currButton.name;
+                }
+                if (descText != null)
+                {
+                    descText.text = currButton.desc;
+                }
+                if (image != null)
+                {
+                    image.sprite = currButton.sprite;
+                }
             }
         }
 	}

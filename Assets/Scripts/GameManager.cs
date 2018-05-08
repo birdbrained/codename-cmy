@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour 
+public class GameManager : Photon.PunBehaviour 
 {
 	//get the GameManager instance
 	private static GameManager instance;
@@ -61,6 +61,8 @@ public class GameManager : MonoBehaviour
 	public int playerTwoPrimaryColorIndex;
 	public int playerTwoSecondaryColorIndex;
 
+    [SerializeField]
+    private bool onlineGame = false;
 	[SerializeField]
 	private PlayerController player1;
 	public PlayerController Player1
@@ -87,6 +89,8 @@ public class GameManager : MonoBehaviour
 			player2 = value;
 		}
 	}
+    public PlayerOnlineController OnlinePlayer1;
+    public PlayerOnlineController OnlinePlayer2;
 	[SerializeField]
 	private Boss boss; //might have to change this to be obj-orn later
 	public Boss Boss
@@ -202,13 +206,26 @@ public class GameManager : MonoBehaviour
 	void Start () 
 	{
 		DetermineWeapons(colorIndexMatchesWeaponIndex);
-		if (Player1 != null && Player2 != null)
-		{
-			Player1.SetCurrentColors(playerOnePrimaryColorIndex, playerOneSecondaryColorIndex);
-			Player2.SetCurrentColors(playerTwoPrimaryColorIndex, playerTwoSecondaryColorIndex);
-			Player1.SetCurrentWeapons(playerOnePrimaryWeaponIndex, playerOneSecondaryWeaponIndex);
-			Player2.SetCurrentWeapons(playerTwoPrimaryWeaponIndex, playerTwoSecondaryWeaponIndex);
-		}
+        if (onlineGame)
+        {
+            if (OnlinePlayer1 != null && OnlinePlayer2 != null)
+            {
+                OnlinePlayer1.SetCurrentColors(playerOnePrimaryColorIndex, playerOneSecondaryColorIndex);
+                OnlinePlayer2.SetCurrentColors(playerTwoPrimaryColorIndex, playerTwoSecondaryColorIndex);
+                OnlinePlayer1.SetCurrentWeapons(playerOnePrimaryWeaponIndex, playerOneSecondaryWeaponIndex);
+                OnlinePlayer2.SetCurrentWeapons(playerTwoPrimaryWeaponIndex, playerTwoSecondaryWeaponIndex);
+            }
+        }
+        else
+        {
+            if (Player1 != null && Player2 != null)
+            {
+                Player1.SetCurrentColors(playerOnePrimaryColorIndex, playerOneSecondaryColorIndex);
+                Player2.SetCurrentColors(playerTwoPrimaryColorIndex, playerTwoSecondaryColorIndex);
+                Player1.SetCurrentWeapons(playerOnePrimaryWeaponIndex, playerOneSecondaryWeaponIndex);
+                Player2.SetCurrentWeapons(playerTwoPrimaryWeaponIndex, playerTwoSecondaryWeaponIndex);
+            }
+        }
 		if (Boss != null)
 		{
 			DecideBossColors(true);
@@ -224,6 +241,28 @@ public class GameManager : MonoBehaviour
         {
             Player1.LoadDefaultControls();
             Player2.LoadDefaultControls();
+        }
+
+        if (PlayerOnlineController.LocalPlayerInstance == null && onlineGame)
+        {
+            for (int i = 0; i < PhotonNetwork.room.PlayerCount; i++)
+            {
+                if (PlayerPrefs.HasKey("PlayerName"))
+                {
+                    if (PhotonNetwork.playerList[i].NickName == PlayerPrefs.GetString("PlayerName") + " ")
+                    {
+                        if (i == 0)
+                        {
+                            PlayerOnlineController.LocalPlayerInstance = OnlinePlayer1.gameObject;
+                        }
+                        else
+                        {
+                            PlayerOnlineController.LocalPlayerInstance = OnlinePlayer2.gameObject;
+                        }
+                        break;
+                    }
+                }
+            }
         }
 	}
 
@@ -542,4 +581,54 @@ public class GameManager : MonoBehaviour
             Destroy(s.gameObject);
         }
     }
+
+    #region PUN Stuff
+
+    public void LeaveRoom()
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    public void LoadLevelWithPhoton(string levelname)
+    {
+        if (!PhotonNetwork.isMasterClient)
+        {
+            Debug.LogError("PhotonNetwork : Trying to Load a level but we are not the master Client");
+        }
+        Debug.Log("PhotonNetwork : Loading Level : " + levelname);
+        PhotonNetwork.LoadLevel(levelname);
+    }
+
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene(0);
+    }
+
+    public override void OnPhotonPlayerConnected(PhotonPlayer other)
+    {
+        Debug.Log("OnPhotonPlayerConnected(): " + other.NickName);
+        if (PhotonNetwork.isMasterClient)
+        {
+            Debug.Log("OnPhotonPlayerConnected isMasterClient " + PhotonNetwork.isMasterClient); // called before OnPhotonPlayerDisconnected
+            if (PhotonNetwork.room.PlayerCount >= 2)
+            {
+                LoadLevelWithPhoton("online_test");
+            }
+        }
+    }
+
+    public override void OnPhotonPlayerDisconnected(PhotonPlayer other)
+    {
+        Debug.Log("OnPhotonPlayerDisconnected(): " + other.NickName);
+        if (PhotonNetwork.isMasterClient)
+        {
+            Debug.Log("OnPhotonPlayerDisonnected isMasterClient " + PhotonNetwork.isMasterClient); // called before OnPhotonPlayerDisconnected
+            if (PhotonNetwork.room.PlayerCount < 2)
+            {
+                LoadLevelWithPhoton("title");
+            }
+        }
+    }
+
+    #endregion
 }

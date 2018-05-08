@@ -7,6 +7,8 @@ public class DestroyAfterTime : MonoBehaviour
 	[SerializeField]
 	private float timeBeforeDestroy;
     private ParticleSystem ps;
+    [SerializeField]
+    private bool isOnline = false;
 
 	// Use this for initialization
 	void Start () 
@@ -26,6 +28,9 @@ public class DestroyAfterTime : MonoBehaviour
 		yield return new WaitForSeconds(timeBeforeDestroy);
         if (ps != null)
             ps.Stop();
-		Destroy(gameObject);
+        if (isOnline)
+            PhotonNetwork.Destroy(gameObject);
+		else
+            Destroy(gameObject);
 	}
 }
