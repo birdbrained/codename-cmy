@@ -9,6 +9,7 @@ public class Rotate : MonoBehaviour
     [SerializeField]
     private float speed;
     public bool canRotate = true;
+    public bool resetRotationWhenStopped = true;
     private Quaternion startRotation;
 
 	// Use this for initialization
@@ -21,8 +22,10 @@ public class Rotate : MonoBehaviour
 	void Update ()
     {
         if (canRotate)
+        {
             transform.Rotate(direction * Time.deltaTime * speed, Space.World);
-        else
+        }
+        else if (resetRotationWhenStopped)
             transform.rotation = startRotation;
 	}
 }

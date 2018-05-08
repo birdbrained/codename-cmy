@@ -10,6 +10,7 @@ public class BounceBetweenTwoPoints : MonoBehaviour
 	private Vector3 pos2;
 	[SerializeField]
 	private float speed = 2.0f;
+    private float t = 0.0f;
 
     private bool canBounce = true;
     public bool CanBounce
@@ -28,6 +29,9 @@ public class BounceBetweenTwoPoints : MonoBehaviour
 	void Update()
 	{
         if (canBounce)
-		    transform.position = Vector3.Lerp(pos1, pos2, (Mathf.Sin(speed * Time.time) + 1.0f) / 2.0f);
+        {
+            t += Time.deltaTime;
+            transform.position = Vector3.Lerp(pos1, pos2, (Mathf.Sin(speed * t) + 1.0f) / 2.0f);
+        }
 	}
 }
