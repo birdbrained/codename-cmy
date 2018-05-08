@@ -5,6 +5,8 @@ using UnityEngine;
 public class Rotate : MonoBehaviour
 {
     [SerializeField]
+    private Vector3 direction = Vector3.up;
+    [SerializeField]
     private float speed;
     public bool canRotate = true;
     private Quaternion startRotation;
@@ -19,7 +21,7 @@ public class Rotate : MonoBehaviour
 	void Update ()
     {
         if (canRotate)
-            transform.Rotate(Vector3.up * Time.deltaTime * speed, Space.World);
+            transform.Rotate(direction * Time.deltaTime * speed, Space.World);
         else
             transform.rotation = startRotation;
 	}
