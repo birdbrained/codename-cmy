@@ -701,7 +701,8 @@ public class PlayerController : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D other)
 	{
-		if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser" || other.gameObject.tag == "enemy_laser")
+        Debug.Log("Player: " + playerNum.ToString() + " collided with: " + other.gameObject.name);
+        if (other.gameObject.tag == "enemy_bullet" || other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser" || other.gameObject.tag == "enemy_laser")
 		{
 			Bullet _bullet = other.gameObject.GetComponent<Bullet>();
             if (_bullet != null && _bullet.owner != gameObject)
