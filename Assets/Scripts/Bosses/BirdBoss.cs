@@ -217,6 +217,7 @@ public class BirdBoss : Boss
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (other.gameObject.tag == "player_bullet" || other.gameObject.tag == "laser")
         {
             Bullet _bullet = other.gameObject.GetComponent<Bullet>();
