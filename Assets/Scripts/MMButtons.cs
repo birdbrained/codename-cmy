@@ -6,6 +6,9 @@ using UnityEngine.EventSystems;
 public class MMButtons : MonoBehaviour 
 {
     private EventSystem es;
+    public int transitionType = 0;
+    [SerializeField]
+    private Transition transition;
 
 	// Use this for initialization
 	void Start ()
