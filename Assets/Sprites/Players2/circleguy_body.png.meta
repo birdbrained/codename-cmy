@@ -1,22 +1,26 @@
 fileFormatVersion: 2
-guid: bb5b7db2adcb00e4da85ba1fc7abfb3b
-timeCreated: 1525551161
+guid: b6b7dfce1b6d05445a24380bd4bb5eb2
+timeCreated: 1525845596
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: triguy_fill (1)_0
-    21300002: triguy_fill (1)_1
-    21300004: triguy_fill (1)_2
-    21300006: triguy_fill (1)_3
-    21300008: triguy_fill (1)_4
-    21300010: triguy_fill (1)_5
-    21300012: triguy_fill (1)_6
-    21300014: triguy_fill (1)_7
-    21300016: triguy_fill (1)_8
-    21300018: triguy_fill (1)_9
-    21300020: triguy_fill (1)_10
-    21300022: triguy_fill (1)_11
-    21300024: triguy_fill (1)_12
+    21300000: circleguy_outline_0
+    21300002: circleguy_outline_1
+    21300004: circleguy_outline_2
+    21300006: circleguy_outline_3
+    21300008: circleguy_outline_4
+    21300010: circleguy_outline_5
+    21300012: circleguy_outline_6
+    21300014: circleguy_outline_7
+    21300016: circleguy_outline_8
+    21300018: circleguy_outline_9
+    21300020: circleguy_outline_10
+    21300022: circleguy_outline_11
+    21300024: circleguy_outline_12
+    21300026: circleguy_outline_13
+    21300028: circleguy_outline_14
+    21300030: circleguy_outline_15
+    21300032: circleguy_outline_16
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -99,171 +103,184 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: triguy_fill (1)_0
+      name: circleguy_outline_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.6322837, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_1
+      name: circleguy_outline_1
       rect:
         serializedVersion: 2
-        x: 406
+        x: 397
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.58818924, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_2
+      name: circleguy_outline_2
       rect:
         serializedVersion: 2
-        x: 812
+        x: 794
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5749609, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_3
+      name: circleguy_outline_3
       rect:
         serializedVersion: 2
-        x: 1218
+        x: 1191
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.53307116, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_4
+      name: circleguy_outline_4
       rect:
         serializedVersion: 2
-        x: 1624
+        x: 1588
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.47574833, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_5
+      name: circleguy_outline_5
       rect:
         serializedVersion: 2
-        x: 2030
+        x: 1985
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.4514966, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_6
+      name: circleguy_outline_6
       rect:
         serializedVersion: 2
-        x: 2436
+        x: 2382
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.471339, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_7
+      name: circleguy_outline_7
       rect:
         serializedVersion: 2
-        x: 2842
+        x: 2779
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.44708785, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_8
+      name: circleguy_outline_8
       rect:
         serializedVersion: 2
-        x: 3248
+        x: 3176
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.4250399, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_9
+      name: circleguy_outline_9
       rect:
         serializedVersion: 2
-        x: 3654
+        x: 3573
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.4603153, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_10
+      name: circleguy_outline_10
       rect:
         serializedVersion: 2
-        x: 4060
+        x: 3970
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.40519625, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_11
+      name: circleguy_outline_11
       rect:
         serializedVersion: 2
-        x: 4466
+        x: 4367
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.39196882, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_fill (1)_12
+      name: circleguy_outline_12
       rect:
         serializedVersion: 2
-        x: 4872
+        x: 4764
         y: 0
-        width: 406.15384
+        width: 397.7143
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.36551148, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: circleguy_outline_13
+      rect:
+        serializedVersion: 2
+        x: 5161
+        y: 0
+        width: 397.7143
+        height: 442
+      alignment: 9
+      pivot: {x: 0.38976383, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0

@@ -1,0 +1,274 @@
+fileFormatVersion: 2
+guid: c3d331bc844c1874baaf3bceda360b20
+timeCreated: 1525846925
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: triguy_outline_0
+    21300002: triguy_outline_1
+    21300004: triguy_outline_2
+    21300006: triguy_outline_3
+    21300008: triguy_outline_4
+    21300010: triguy_outline_5
+    21300012: triguy_outline_6
+    21300014: triguy_outline_7
+    21300016: triguy_outline_8
+    21300018: triguy_outline_9
+    21300020: triguy_outline_10
+    21300022: triguy_outline_11
+    21300024: triguy_outline_12
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: triguy_outline_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 427
+        height: 442
+      alignment: 9
+      pivot: {x: 0.6417903, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_1
+      rect:
+        serializedVersion: 2
+        x: 434
+        y: 0
+        width: 378
+        height: 442
+      alignment: 9
+      pivot: {x: 0.5690388, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_2
+      rect:
+        serializedVersion: 2
+        x: 812
+        y: 0
+        width: 406.15384
+        height: 442
+      alignment: 9
+      pivot: {x: 0.5488324, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_3
+      rect:
+        serializedVersion: 2
+        x: 1218
+        y: 0
+        width: 406.15384
+        height: 442
+      alignment: 9
+      pivot: {x: 0.47429827, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_4
+      rect:
+        serializedVersion: 2
+        x: 1624
+        y: 0
+        width: 406.15384
+        height: 442
+      alignment: 9
+      pivot: {x: 0.42032546, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_5
+      rect:
+        serializedVersion: 2
+        x: 2030
+        y: 0
+        width: 388
+        height: 442
+      alignment: 9
+      pivot: {x: 0.38700315, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_6
+      rect:
+        serializedVersion: 2
+        x: 2418
+        y: 0
+        width: 407
+        height: 442
+      alignment: 9
+      pivot: {x: 0.39484316, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_7
+      rect:
+        serializedVersion: 2
+        x: 2825
+        y: 0
+        width: 402
+        height: 442
+      alignment: 9
+      pivot: {x: 0.39355895, y: 0.4858298}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_8
+      rect:
+        serializedVersion: 2
+        x: 3232
+        y: 0
+        width: 422
+        height: 442
+      alignment: 9
+      pivot: {x: 0.38373873, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_9
+      rect:
+        serializedVersion: 2
+        x: 3640
+        y: 0
+        width: 420
+        height: 442
+      alignment: 9
+      pivot: {x: 0.4055542, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_10
+      rect:
+        serializedVersion: 2
+        x: 4044
+        y: 0
+        width: 422
+        height: 442
+      alignment: 9
+      pivot: {x: 0.39858097, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_11
+      rect:
+        serializedVersion: 2
+        x: 4448
+        y: 0
+        width: 424
+        height: 442
+      alignment: 9
+      pivot: {x: 0.3941351, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: triguy_outline_12
+      rect:
+        serializedVersion: 2
+        x: 4854
+        y: 0
+        width: 424
+        height: 442
+      alignment: 9
+      pivot: {x: 0.3769013, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

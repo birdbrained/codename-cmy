@@ -1,22 +1,22 @@
 fileFormatVersion: 2
-guid: eec8da7ef17049f4fb2c9f37b9d1d50c
-timeCreated: 1525551184
+guid: 08dc37d865c816544a480397fcf49d32
+timeCreated: 1525846925
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
-    21300000: triguy_outline (1)_0
-    21300002: triguy_outline (1)_1
-    21300004: triguy_outline (1)_2
-    21300006: triguy_outline (1)_3
-    21300008: triguy_outline (1)_4
-    21300010: triguy_outline (1)_5
-    21300012: triguy_outline (1)_6
-    21300014: triguy_outline (1)_7
-    21300016: triguy_outline (1)_8
-    21300018: triguy_outline (1)_9
-    21300020: triguy_outline (1)_10
-    21300022: triguy_outline (1)_11
-    21300024: triguy_outline (1)_12
+    21300000: triguy_outline_0
+    21300002: triguy_outline_1
+    21300004: triguy_outline_2
+    21300006: triguy_outline_3
+    21300008: triguy_outline_4
+    21300010: triguy_outline_5
+    21300012: triguy_outline_6
+    21300014: triguy_outline_7
+    21300016: triguy_outline_8
+    21300018: triguy_outline_9
+    21300020: triguy_outline_10
+    21300022: triguy_outline_11
+    21300024: triguy_outline_12
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -99,171 +99,171 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: triguy_outline (1)_0
+      name: triguy_outline_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 406.15384
+        width: 427
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.6417903, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_1
+      name: triguy_outline_1
       rect:
         serializedVersion: 2
-        x: 406
+        x: 434
         y: 0
-        width: 406.15384
+        width: 378
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5690388, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_2
+      name: triguy_outline_2
       rect:
         serializedVersion: 2
         x: 812
         y: 0
         width: 406.15384
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.5488324, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_3
+      name: triguy_outline_3
       rect:
         serializedVersion: 2
         x: 1218
         y: 0
         width: 406.15384
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.47429827, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_4
+      name: triguy_outline_4
       rect:
         serializedVersion: 2
         x: 1624
         y: 0
         width: 406.15384
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.42032546, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_5
+      name: triguy_outline_5
       rect:
         serializedVersion: 2
         x: 2030
         y: 0
-        width: 406.15384
+        width: 388
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.38700315, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_6
+      name: triguy_outline_6
       rect:
         serializedVersion: 2
-        x: 2436
+        x: 2418
         y: 0
-        width: 406.15384
+        width: 407
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.39484316, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_7
+      name: triguy_outline_7
       rect:
         serializedVersion: 2
-        x: 2842
+        x: 2825
         y: 0
-        width: 406.15384
+        width: 402
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.39355895, y: 0.4858298}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_8
+      name: triguy_outline_8
       rect:
         serializedVersion: 2
-        x: 3248
+        x: 3232
         y: 0
-        width: 406.15384
+        width: 422
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.38373873, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_9
+      name: triguy_outline_9
       rect:
         serializedVersion: 2
-        x: 3654
+        x: 3640
         y: 0
-        width: 406.15384
+        width: 420
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.4055542, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_10
+      name: triguy_outline_10
       rect:
         serializedVersion: 2
-        x: 4060
+        x: 4044
         y: 0
-        width: 406.15384
+        width: 422
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.39858097, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_11
+      name: triguy_outline_11
       rect:
         serializedVersion: 2
-        x: 4466
+        x: 4448
         y: 0
-        width: 406.15384
+        width: 424
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.3941351, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: triguy_outline (1)_12
+      name: triguy_outline_12
       rect:
         serializedVersion: 2
-        x: 4872
+        x: 4854
         y: 0
-        width: 406.15384
+        width: 424
         height: 442
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 9
+      pivot: {x: 0.3769013, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       tessellationDetail: 0
