@@ -31,6 +31,8 @@ public class GameManager : Photon.PunBehaviour
 		}
 	}
 
+    public static int winStreak = 0;
+
     [SerializeField]
     private bool enableDebugCommands = false;
     [SerializeField]
@@ -567,6 +569,20 @@ public class GameManager : Photon.PunBehaviour
 		
 	}
 
+    public void IncrementWinStreak()
+    {
+        winStreak++;
+        if (winStreak >= 10)
+            AchievementManager.Instance.AwardAchievement(3);
+        else if (winStreak >= 30)
+            AchievementManager.Instance.AwardAchievement(5);
+    }
+
+    public void ResetWinStreak()
+    {
+        winStreak = 0;
+    }
+
     public void DestroyAllBulletsAndSpawns()
     {
         Bullet[] bullets = FindObjectsOfType<Bullet>();
@@ -580,6 +596,11 @@ public class GameManager : Photon.PunBehaviour
         {
             Destroy(s.gameObject);
         }
+    }
+
+    public void ResetAllAchievements()
+    {
+        AchievementManager.Instance.ResetAchievements();
     }
 
     #region PUN Stuff

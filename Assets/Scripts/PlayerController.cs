@@ -679,6 +679,7 @@ public class PlayerController : MonoBehaviour
                     Debug.Log("Game over!");
                     //ParticleManager.Instance.GameOverParticle.SetActive(true);
                     Instantiate(ParticleManager.Instance.GameOverParticle, new Vector3(0, 9, 0), Quaternion.identity);
+                    GameManager.Instance.ResetWinStreak();
                 }
 			}
 		}

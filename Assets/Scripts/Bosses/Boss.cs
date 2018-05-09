@@ -70,6 +70,7 @@ public class Boss : MonoBehaviour
     [SerializeField]
     protected float deathTimer;
     protected bool canTransitionToSecondDeathPhase = true;
+    protected bool canAwardUphillBattleAchievement = true;
 
     // Use this for initialization
     public virtual void Start() 
@@ -128,6 +129,10 @@ public class Boss : MonoBehaviour
     public virtual void DealDamage(float damage, float damageMod)
     {
         currHealth -= (damage * damageMod);
+        if (damageMod > 1.0f)
+        {
+            canAwardUphillBattleAchievement = false;
+        }
     }
 
     public int GetCurrentColorIndex()
@@ -137,11 +142,22 @@ public class Boss : MonoBehaviour
 
     public void DestroySelf()
     {
+        AchievementManager.Instance.AwardAchievement(0);
+        if (canAwardUphillBattleAchievement)
+        {
+            AchievementManager.Instance.AwardAchievement(2);
+        }
+        GameManager.Instance.IncrementWinStreak();
         Destroy(gameObject);
     }
 
     public Color GetCurrentColor()
     {
         return currColors[currColorEquipped];
+    }
+
+    public float GetCurrentHealth()
+    {
+        return currHealth;
     }
 }

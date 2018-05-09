@@ -197,6 +197,7 @@ public class BirdBoss : Boss
             {
                 canTransitionToSecondDeathPhase = false;
                 MyAnimator.SetTrigger("die2");
+                AchievementManager.Instance.AwardAchievement(4);
             }
         }
     }

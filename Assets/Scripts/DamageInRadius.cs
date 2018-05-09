@@ -71,6 +71,10 @@ public class DamageInRadius : MonoBehaviour
                         //this object is a boss, damage it
                         float damageMod = GameManager.Instance.DamageModifier(colorIndex, boss.GetCurrentColorIndex());
                         boss.DealDamage(damageToDeal, damageMod);
+                        if (boss.GetCurrentHealth() <= 0.0f)
+                        {
+                            AchievementManager.Instance.AwardAchievement(1);
+                        }
 
                         GameObject parts;
 
