@@ -603,6 +603,11 @@ public class GameManager : Photon.PunBehaviour
         AchievementManager.Instance.ResetAchievements();
     }
 
+    public int GetWinStreak()
+    {
+        return winStreak;
+    }
+
     #region PUN Stuff
 
     public void LeaveRoom()

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Boss : MonoBehaviour 
 {
@@ -148,7 +149,14 @@ public class Boss : MonoBehaviour
             AchievementManager.Instance.AwardAchievement(2);
         }
         GameManager.Instance.IncrementWinStreak();
-        Destroy(gameObject);
+        //Destroy(gameObject);
+        StartCoroutine(TransitionToIntermission(2.0f));
+    }
+
+    protected IEnumerator TransitionToIntermission(float t)
+    {
+        yield return new WaitForSeconds(t);
+        SceneManager.LoadScene("intermission");
     }
 
     public Color GetCurrentColor()

@@ -69,6 +69,11 @@ public class Transition : MonoBehaviour
         transitionType = type;
     }
 
+    public void SetTransitionTypeFromGameManager()
+    {
+        transitionType = GameManager.Instance.HardMode;
+    }
+
     public void ExecuteTransitionToRandomStage()
     {
         string lvl = "";
